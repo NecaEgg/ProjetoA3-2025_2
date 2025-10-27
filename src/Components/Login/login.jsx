@@ -7,28 +7,36 @@ const login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = (e) => {
-        setEmail(e.target.value)
+    const handleSubmit = (event) => {
+        preventdefault()
+
+        alert(`E-mail: ${email} \nSenha: ${password}`)
     }
 
   return (
     <div className="container">
         <form onSubmit={handleSubmit}>
             <h1>Acesse sua conta</h1>
-            <div>
+            <div className="input-field">
                 <input 
                 type="email" 
                 placeholder='E-mail'
+                required
                 onChange={(e) => setEmail(e.target.value)} 
                 />
                 <FaUser className='icon'/>
             </div>
-            <div>
-                <input type="password" placeholder='Senha' />
+            <div className='input-field'>
+                <input 
+                type="password" 
+                placeholder='Senha' 
+                required
+                onChange={(e) => setPassword(e.target.value)} 
+                />
                 <FaLock className='icon'/>
             </div>
             <button type="submit">Entrar</button>
-            <div>
+            <div className='recall-forget'>
                 <a href="#">Esqueci minha senha</a>
             </div>
             <div className="signup-link">

@@ -1,0 +1,71 @@
+.container{
+    width: 400px;
+    background-color: #c2c2c2;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.container h1{
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.container .input-field{
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+    margin: 30px auto;
+}
+
+.input-field input{
+    width: 80%;
+    height: 100%;
+    padding: 10px 35px;
+    border: none;
+    border-radius: 10px;
+    background-color: #e6e6e6;
+    font-size: 16px;
+}
+
+.input-field .icon{
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.container .recall-forget{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    margin: auto;
+}
+
+.recall-forget a{
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 1px;
+}
+
+.recall-forget a:hover{
+    text-decoration: underline;
+}
+
+.container button{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.container .signup-link{
+    text-align: center;
+    margin-top: 20px;
+}   
