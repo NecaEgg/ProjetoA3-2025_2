@@ -2,77 +2,101 @@
 export default {};
 </script>
 <template>
+    <div id="login">
     <div class="container">
         <form class="login">
             <h1>Acesse sua conta</h1>
             <div class="input-field">
+                <p class="texto"> Digite seu Email:</p>
                 <input type="email" placeholder='E-mail' required />
 
             </div>
             <div class='input-field'>
+                <p class="texto"> Digite sua Senha:</p>
                 <input type="password" placeholder='Senha' required />
 
             </div>
             <div class='input-field'>
-            <button type="submit">Entrar</button>
+                <button type="submit">Entrar</button>
             </div>
             <div class='recall-forget'>
                 <a href="#">Esqueci minha senha</a>
             </div>
-            <div class="signup-link">
+            <div class="signup">
                 <p>
-                    Ainda não tem uma conta? <a href="#">Cadastre-se</a>
+                    Ainda não tem uma conta?
                 </p>
+                <div class="signup-link">
+                    <a href="#">Cadastre-se</a>
+                </div>
             </div>
         </form>
     </div>
-    
-
+</div>
 </template>
 <style>
-.container {
+#login {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Mudar isso para paginas que nao e o login (flex-start)*/
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.container .texto {
+    font-weight: bold;
+    width: 100%;
+    display: flex;
+    font-size: 16px;
+    color: var(--text-color);
+    margin-bottom: 1px;
+}
+
 .login {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 400px;
-    background-color: #c2c2c2;
+    background-color:var(--secondary-bg-color);
     padding: 40px;
     border-radius: 10px;
+    height: max-content;
 }
 
 .login h1 {
     text-align: center;
-    margin-bottom: 40px;
     color: #333;
 }
 
 .login .input-field {
     display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     margin-bottom: 20px;
     width: 100%;
-    margin: 30px auto;
+    margin: margin-bottom;
 }
 
 .input-field input {
     outline: none;
-    width: 85%;
+    width: 100%;
     height: 100%;
     padding: 10px 35px;
     border: none;
     border-radius: 10px;
-    background-color: #e6e6e6;
+    background-color: var(--primary-color);
     font-size: 16px;
+    color: var(--text-color);
 }
 
 .input-field .icon {
@@ -92,7 +116,7 @@ export default {};
 
 .recall-forget a {
     font-size: 14px;
-    color: #333;
+    color: var(--text-color);
     text-decoration: none;
     padding: 10px 1px;
 }
@@ -106,14 +130,45 @@ export default {};
     padding: 10px;
     border: none;
     border-radius: 10px;
-    background-color: #333;
-    color: #fff;
+    background-color: var(--primary-bg-color);
+    color: var(--primary-color);
     font-size: 16px;
     cursor: pointer;
 }
 
-.login .signup-link {
+.login .signup {
     text-align: center;
-    margin-top: 20px;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 20px;
+    gap: 5px
 }
+
+
+.login .signup .signup-link{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-bg-color);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.login .signup .signup-link a{
+    text-decoration: none;
+    color: var(--primary-color);
+    margin: 0;
+    padding: 0;
+}
+
+.login .signup .signup-link:hover{
+    transition: background-color 0.3s ease;
+    background-color: var(--secondary-bg-color);
+}
+
 </style>

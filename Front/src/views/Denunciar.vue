@@ -2,7 +2,7 @@
 export default {};
 </script>
 <template>
-    <h1>Dica </h1>
+    <h1>Denuncia</h1>
 </template>
 <style>
 

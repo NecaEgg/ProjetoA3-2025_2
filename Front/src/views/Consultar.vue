@@ -2,7 +2,7 @@
 export default {};
 </script>
 <template>
-    <h1>Dica </h1>
+    <h1>Consultar </h1>
 </template>
 <style>
 
