@@ -3,36 +3,40 @@ export default {};
 </script>
 <template>
     <div id="login">
-    <div class="container">
-        <form class="login">
-            <h1>Acesse sua conta</h1>
-            <div class="input-field">
-                <p class="texto"> Digite seu Email:</p>
-                <input type="email" placeholder='E-mail' required />
-
-            </div>
-            <div class='input-field'>
-                <p class="texto"> Digite sua Senha:</p>
-                <input type="password" placeholder='Senha' required />
-
-            </div>
-            <div class='input-field'>
-                <button type="submit">Entrar</button>
-            </div>
-            <div class='recall-forget'>
-                <a href="#">Esqueci minha senha</a>
-            </div>
-            <div class="signup">
-                <p>
-                    Ainda não tem uma conta?
-                </p>
-                <div class="signup-link">
-                    <a href="#">Cadastre-se</a>
+        <div class="container">
+            <form class="login">
+                <h1>Acesse sua conta</h1>
+                <div class="input-field">
+                    <p class="texto"> Digite seu Email:</p>
+                        <div class="input-wrapper">
+                            <input type="email" placeholder='E-mail' required />
+                            <img class="icon" src="../assets/icons/user-solid-full.svg">
+                        </div>
                 </div>
-            </div>
-        </form>
+                <div class='input-field'>
+                    <p class="texto"> Digite sua Senha:</p>
+                        <div class="input-wrapper">
+                            <input type="password" placeholder='Senha' required />
+                            <img class="icon" src="../assets/icons/lock-solid-full.svg">
+                        </div>
+                </div>
+                <div class='input-field'>
+                    <button type="submit">Entrar</button>
+                </div>
+                <div class='recall-forget'>
+                    <a href="#">Esqueci minha senha</a>
+                </div>
+                <div class="signup">
+                    <p>
+                        Ainda não tem uma conta?
+                    </p>
+                    <div class="signup-link">
+                        <a href="#">Cadastre-se</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 </template>
 <style>
 #login {
@@ -44,7 +48,8 @@ export default {};
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Mudar isso para paginas que nao e o login (flex-start)*/
+    justify-content: center;
+    /* Mudar isso para paginas que nao e o login (flex-start)*/
     align-items: center;
     width: 100%;
     height: 100%;
@@ -65,7 +70,7 @@ export default {};
     justify-content: center;
     align-items: center;
     width: 400px;
-    background-color:var(--secondary-bg-color);
+    background-color: var(--secondary-bg-color);
     padding: 40px;
     border-radius: 10px;
     height: max-content;
@@ -97,6 +102,12 @@ export default {};
     background-color: var(--primary-color);
     font-size: 16px;
     color: var(--text-color);
+    box-sizing: border-box; 
+}
+.input-wrapper {
+    position: relative;
+    width: 100%; 
+    font-size: 16px; /* <-- CONTROLA O TAMANHO DA FONTE E DO ÍCONE */
 }
 
 .input-field .icon {
@@ -105,6 +116,8 @@ export default {};
     left: 10px;
     transform: translateY(-50%);
     color: #666;
+    width: 16px;
+    height: 16px;
 }
 
 .login .recall-forget {
@@ -130,7 +143,7 @@ export default {};
     padding: 10px;
     border: none;
     border-radius: 10px;
-    background-color: var(--primary-bg-color);
+    background-color: var(--secondary-color);
     color: var(--primary-color);
     font-size: 16px;
     cursor: pointer;
@@ -149,26 +162,25 @@ export default {};
 }
 
 
-.login .signup .signup-link{
+.login .signup .signup-link {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: var(--primary-bg-color);
+    background-color: var(--secondary-color);
     padding: 5px 10px;
     border-radius: 10px;
 }
 
-.login .signup .signup-link a{
+.login .signup .signup-link a {
     text-decoration: none;
     color: var(--primary-color);
     margin: 0;
     padding: 0;
 }
 
-.login .signup .signup-link:hover{
+.login .signup .signup-link:hover {
     transition: background-color 0.3s ease;
     background-color: var(--secondary-bg-color);
 }
-
 </style>

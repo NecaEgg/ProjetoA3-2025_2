@@ -108,7 +108,6 @@ export default {};
 /* Efeito ao passar o mouse */
 .nav-links a:hover {
     color: var(--primary-color);
-    /* Muda para azul */
 }
 
 .nav-button {
@@ -117,7 +116,7 @@ export default {};
     color: var(--primary-bg-color);
     /* cor do Texto */
     padding: 10px 5px;
-    border-radius: 8px;
+    border-radius: 10px;
     /* Bordas arredondadas */
     font-size: 16px;
     font-weight: bold;
@@ -126,13 +125,13 @@ export default {};
 }
 
 .nav-button + .rota-ativa {
-    color: var(--secondary-color) !important;
+    color: var(--primary-color) !important;
 }
 
 /* 6. Botão "Sugerir Instituição" */
 .nav-button-destaque {
     text-decoration: none;
-    background-color: var(--primary-bg-color);
+    background-color: var(--secondary-color);
     /* Cor de fundo */
     color: var(--primary-color);
     /* cor do Texto */

@@ -31,14 +31,14 @@ export default {};
 .consultar-header-text {
     text-align: center;
     margin-bottom: 20px;
-    color: #ffffff;
+    color: var(--secondary-text-color);
 }
 
 .container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /* Mudar isso para paginas que nao e o consultar (flex-start)*/
+    /* Mudar isso para paginas que nao e o login (flex-start)*/
     align-items: center;
     width: 100%;
     height: 100%;
@@ -99,7 +99,7 @@ export default {};
     padding: 10px;
     border: none;
     border-radius: 10px;
-    background-color: var(--primary-bg-color);
+    background-color: var(--secondary-color);
     color: var(--primary-color);
     font-size: 16px;
     cursor: pointer;

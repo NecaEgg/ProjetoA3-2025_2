@@ -74,7 +74,7 @@ export default {};
 .header-text {
     text-align: center;
     margin-bottom: 20px;
-    color: #ffffff;
+    color: var(--secondary-text-color);
 }
 
 .container {
@@ -142,7 +142,7 @@ export default {};
     padding: 10px;
     border: none;
     border-radius: 10px;
-    background-color: var(--primary-bg-color);
+    background-color: var(--secondary-color);
     color: var(--primary-color);
     font-size: 16px;
     cursor: pointer;
