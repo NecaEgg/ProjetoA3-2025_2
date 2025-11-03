@@ -6,17 +6,21 @@ export default {};
         <div class="container">
             <h1 class="header-text">Ajude a combater fraudes - Denuncie uma Ligação suspeita!</h1>
             <form class="denunciar">
-                <div class="input-field">
+                <div class="denunciar-input-field">
                     <p class="texto"> Número de Telefone do Golpista</p>
-                    <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                    <div class="denunciar-input-wrapper">
+                            <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                            <img class="icon" src="../assets/icons/phone-solid-full.svg">
+                        </div>
+                    
 
                 </div>
-                <div class="input-field">
+                <div class="denunciar-input-field">
                     <p class="texto"> Data da Ligação e Hora Aproximada da Ligação</p>
                     <input type="datetime-local" required />
 
                 </div>
-                <div class="input-field">
+                <div class="denunciar-input-field">
                     <label class="texto" for="empresa-select">Suposta Empresa ou Instuição</label>
                     <select id="empresa-select" name="instituicao" required>
                         <option value="" disabled selected>-- Selecione uma instituição --</option>
@@ -36,32 +40,20 @@ export default {};
                         <option value="outro-banco">Outra Instituição Financeira (Não listada)</option>
                     </select>
                 </div>
-                <div class='input-field'>
+                <div class='denunciar-input-field'>
                     <label class="texto" for="descricao-golpe">Descreva o que aconteceu (detalhes da ligação)</label>
                     <textarea style="resize: none" id="descricao-golpe" rows="5"
                         placeholder='Forneça o máximo de detalhes possível, como o que foi dito, se pediram informações pessoais, etc'
-                        required>
-                    </textarea>
+                        required></textarea>
                 </div>
-                <div class='input-field'>
+                <div class='denunciar-input-field'>
                     <button type="submit">Denunciar</button>
                 </div>
-                <!-- <div class='recall-forget'>
-                    <a href="#">Esqueci minha senha</a>
-                </div>
-                <div class="signup">
-                    <p>
-                        Ainda não tem uma conta?
-                    </p>
-                    <div class="signup-link">
-                        <a href="#">Cadastre-se</a>
-                    </div> 
-                </div> -->
             </form>
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 #denunciar {
     display: flex;
     justify-content: center;
@@ -102,7 +94,7 @@ export default {};
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 1000px;
+    width: 85%;
     background-color: var(--secondary-bg-color);
     padding: 40px;
     border-radius: 10px;
@@ -114,7 +106,7 @@ export default {};
     color: #333;
 }
 
-.denunciar .input-field {
+.denunciar .denunciar-input-field {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -125,7 +117,7 @@ export default {};
     margin: margin-bottom;
 }
 
-.input-field input {
+.denunciar-input-field input, #descricao-golpe, #empresa-select {
     outline: none;
     width: 100%;
     height: 100%;
@@ -135,6 +127,10 @@ export default {};
     background-color: var(--primary-color);
     font-size: 16px;
     color: var(--text-color);
+}
+
+#descricao-golpe, #empresa-select {
+    padding: 10px;
 }
 
 .denunciar button {
@@ -148,4 +144,24 @@ export default {};
     cursor: pointer;
 }
 
+.denunciar-input-wrapper {
+    position: relative;
+    width: 100%; 
+    font-size: 16px; /* <-- CONTROLA O TAMANHO DA FONTE E DO ÍCONE */
+}
+
+.denunciar-input-field .icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #666;
+    width: 16px;
+    height: 16px;
+}
+
+.denunciar-input-field button[type="submit"]:hover {
+    transition: background-color 0.3s ease;
+    background-color: var(--primary-bg-color);
+}
 </style>

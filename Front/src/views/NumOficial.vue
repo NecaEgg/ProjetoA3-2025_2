@@ -7,7 +7,7 @@ export default {
                 {
                     id: 1,
                     name: 'Itaú Unibanco',
-                    logoSrc: ' ', 
+                    logoSrc: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcompanieslogo.com%2Fimg%2Forig%2FITUB-1ebef8c5.png%3Ft%3D1649084582&f=1&nofb=1&ipt=7d24bb3543862ea575e16df91ff98126a7e6a5c961bf0b3e0280e36fcb05beb5', 
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4004 4828' },
                         { title: 'Demais Localidades', number: '0800 970 4828' },
@@ -17,7 +17,7 @@ export default {
                 {
                     id: 2,
                     name: 'Banco do Brasil',
-                    logoSrc: ' ', 
+                    logoSrc: 'https://play-lh.googleusercontent.com/1-aNhsSPNqiVluwNGZar_7F5PbQ4u1zteuJ1jumnArhe8bfYHHaVwu4aVOF5-NAmLaA=w240-h480', 
                     contacts: [
                         { title: 'Central de Atendimento', number: '4004 0001 / 0800 729 0001' },
                         { title: 'WhatsApp Oficial', number: '(61) 4004 0001' },
@@ -27,7 +27,7 @@ export default {
                 {
                     id: 3,
                     name: 'Nubank',
-                    logoSrc: ' ', 
+                    logoSrc: 'https://play-lh.googleusercontent.com/NPkx0aiwABB31gBw_CuZO9Rwukhir-BwemxfNlAVjT6smwk6QgUbb3XrmsSSClfzk0dY=w240-h480', 
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4020 0185' },
                         { title: 'Demais Localidades', number: '0800 591 2117' },
@@ -37,7 +37,7 @@ export default {
                 {
                     id: 4,
                     name: 'Bradesco',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/ReQEaxm44OuduIlJEVO_-xs9iZXSyRNdzGKrONYoLSgAdOzyhPKTb1xuuoPXK6tABm0=w240-h480',
                     contacts: [
                         { title: 'Fone Fácil', number: '4002 0022 / 0800 570 0022' },
                         { title: 'SAC', number: '0800 704 8383' },
@@ -47,7 +47,7 @@ export default {
                 {
                     id: 5,
                     name: 'Santander',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/g_QDzrOlw8Belx8qb47fUu0MPL6AVFzDdbOz_NJZYQDNLveHYxwiUoe09Wvkxf-_548q=w240-h480',
                     contacts: [
                         { title: 'Central de Atendimento', number: '4004 3535 / 0800 702 3535' },
                         { title: 'SAC', number: '0800 762 7777' },
@@ -57,7 +57,7 @@ export default {
                 {
                     id: 6,
                     name: 'Caixa Econômica Federal',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/ubV0x2kGJIEe10shxuFnH9Cy21OgHARwVUZ89nyE0YOZN9c25ov_dyHdk1rMgbPvoDI=w240-h480',
                     contacts: [
                         { title: 'Alô Caixa', number: '4004 0104 / 0800 104 0104' },
                         { title: 'WhatsApp', number: '0800 104 0104' },
@@ -67,7 +67,7 @@ export default {
                 {
                     id: 7,
                     name: 'Banco Inter',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/DABQ3z4xA93QNsK9wqR2LdnamoDHkaKc-h1AueqJrVE7pP9GkIvZqf_URfxOIiNbFyzK=w240-h480',
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '3003 4070' },
                         { title: 'Demais Localidades', number: '0800 940 0007' },
@@ -77,7 +77,7 @@ export default {
                 {
                     id: 8,
                     name: 'C6 Bank',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/qYXhGgBxFLr5xgnv0AGhqW9v7tyedb_i5AVoebI6pow5pWPNZH1qEHnslmSHNkVpB-g=w240-h480',
                     contacts: [
                         { title: 'WhatsApp', number: '(11) 2832 6088' },
                         { title: 'Capitais', number: '3003 6116' },
@@ -87,7 +87,7 @@ export default {
                 {
                     id: 9,
                     name: 'PicPay',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/pTvc9kCumx_24eJDwGUpvcBwljcIBkrsL3qHwhBW2NalMQ-XxTtHRV9YAJanBxkV0Rw=w240-h480',
                     contacts: [
                         { title: 'Central de Atendimento', number: '0800 025 8000' },
                         { title: 'Ouvidoria', number: '0800 025 2000' }
@@ -96,7 +96,7 @@ export default {
                 {
                     id: 10,
                     name: 'Mercado Pago',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/UrB8aayxpFSw0zzKNFSWGgqXbxfpQ_U_DLPCnjYVAlWN8GsnMkprpD80l3k6c0hEOKQRpnTxGtGeddgV3wFq7w=w240-h480',
                     contacts: [
                         { title: 'Central de Atendimento', number: '0800 637 7246' },
                         { title: 'WhatsApp', number: '(11) 98803-2875' }
@@ -105,7 +105,7 @@ export default {
                 {
                     id: 11,
                     name: 'BTG Pactual',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/0y84dcSeljAid36WeCs-9FWY4fENzxVilh1TS9G4jV30VHsFHJ3lGofMeS3w5hpvRk0D=s48',
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4007 2511' },
                         { title: 'Demais Localidades', number: '0800 001 2511' },
@@ -115,7 +115,7 @@ export default {
                 {
                     id: 12,
                     name: 'Banco Pan',
-                    logoSrc: ' ',
+                    logoSrc: 'https://play-lh.googleusercontent.com/XMa2dHPpQlze89nhfDQP6LV9Az01_ayRyxfOw5IQUu6oyBJLLNczL26Oa-UUFwQf4A=w240-h480',
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4003 0101' },
                         { title: 'Demais Localidades', number: '0800 888 0101' },
@@ -152,6 +152,7 @@ export default {
 </script>
 
 <template>
+    <div id="num-oficial">
     <div class="bank-directory-page">
 
         <div class="directory-header">
@@ -162,7 +163,7 @@ export default {
             
             <div class="search-bar-wrapper">
                 <div class="input-wrapper">
-                    <img class="icon" src=' ' alt="Buscar" />
+                    <img class="icon" src='../assets/icons/magnifying-glass-solid-full.svg' alt="Buscar" />
                     <input type="text" 
                            placeholder="Busque por um banco ou instituição" 
                            v-model="searchQuery">
@@ -184,7 +185,7 @@ export default {
                             <p class="contact-number">{{ contact.number }}</p>
                         </div>
                         <button class="copy-button" @click="copyToClipboard(contact.number)">
-                            <img src=' ' alt="Copiar" />
+                            <img src='../assets/icons/copy-solid-full.svg' alt="Copiar" />
                         </button>
                     </div>
                 </div>
@@ -196,17 +197,27 @@ export default {
         </div>
 
     </div>
+</div>
 </template>
 
 <style scoped>
+#num-oficial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .bank-directory-page {
     width: 100%;
-    /* Ajuste "80px" para a altura exata do seu Header. 
-      (Pode ser 60px, 70px, etc. Inspecione no navegador para descobrir a altura).
-      Os 20px laterais e inferiores foram mantidos.
-    */
-    padding: 60% 20px 20px 20px; 
+    padding: 20px; 
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .directory-header {
@@ -346,12 +357,14 @@ export default {
     font-size: 0.875rem; 
     color: var(--text-color-light, #666);
     margin-bottom: 2px;
+    text-align: left;
 }
 
 .contact-number {
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--text-color, #333);
+    text-align: left;
 }
 
 .copy-button {

@@ -8,7 +8,10 @@ export default {};
             <form class="consultar">
                 <div class="consultar-input-field">
                     <p class="texto"> Número de Telefone</p>
-                    <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                    <div class="consultar-input-wrapper">
+                            <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                            <img class="icon" src="../assets/icons/phone-solid-full.svg">
+                        </div>
                 </div>
                 <div class='consultar-input-field'>
                     <button type="submit">Consultar</button>
@@ -21,7 +24,7 @@ export default {};
                 
                 <div class="resultado-card risk-high">
                     <div class="card-header">
-                        <img class="card-icon" src=' ' alt="Alerta">
+                        <img class="card-icon card-icon-vermelho" src='../assets/icons/square-xmark-solid-full.svg' alt="Alerta">
                         <div class="card-title">
                             <h3>(11) 98765-4321</h3>
                             <span>28 denúncias recebidas</span>
@@ -36,7 +39,7 @@ export default {};
 
                 <div class="resultado-card risk-safe">
                     <div class="card-header">
-                        <img class="card-icon" src=' ' alt="Seguro">
+                        <img class="card-icon card-icon-verde" src='../assets/icons/circle-check-solid-full.svg' alt="Seguro">
                         <div class="card-title">
                             <h3>(21) 99999-8888</h3>
                             <span>Nenhuma denúncia encontrada para este número.</span>
@@ -50,7 +53,7 @@ export default {};
 
                 <div class="resultado-card risk-moderate">
                     <div class="card-header">
-                        <img class="card-icon" src=' ' alt="Atenção">
+                        <img class="card-icon card-icon-amarelo" src='../assets/icons/triangle-exclamation-solid-full.svg' alt="Atenção">
                         <div class="card-title">
                             <h3>(31) 91234-5678</h3>
                             <span>2 denúncias recebidas</span>
@@ -68,7 +71,7 @@ export default {};
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 #consultar {
     display: flex;
     justify-content: center;
@@ -108,7 +111,7 @@ export default {};
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 1000px;
+    width: 85%;
     background-color: var(--secondary-bg-color);
     padding: 40px;
     border-radius: 10px;
@@ -166,7 +169,7 @@ export default {};
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 1000px; 
+    width: 85%; 
     max-width: 100%;
 }
 
@@ -189,7 +192,6 @@ export default {};
 .card-icon {
     width: 32px;
     height: 32px;
-    border-radius: 50%; 
     flex-shrink: 0; 
 }
 
@@ -230,10 +232,9 @@ export default {};
 
 .resultado-card.risk-high {
     border-left-color: #f04438;
+    background-color: var(--secondary-bg-color);
 }
-.risk-high .card-icon {
-    background-color: #fee4e2; 
-}
+
 .risk-high .card-tag {
     background-color: #fee4e2;
     color: #d92d20;
@@ -241,10 +242,9 @@ export default {};
 
 .resultado-card.risk-safe {
     border-left-color: #12b76a;
+    background-color: var(--secondary-bg-color);
 }
-.risk-safe .card-icon {
-    background-color: #d1fadf;
-}
+
 .risk-safe .card-tag {
     background-color: #d1fadf;
     color: #027a48;
@@ -252,12 +252,43 @@ export default {};
 
 .resultado-card.risk-moderate {
     border-left-color: #f79009;
+    background-color: var(--secondary-bg-color);
 }
-.risk-moderate .card-icon {
-    background-color: #fef0c7;
-}
+
 .risk-moderate .card-tag {
     background-color: #fef0c7;
     color: #b54708;
 }
+
+
+.card-icon-vermelho {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(74%) saturate(6831%) hue-rotate(3deg) brightness(103%) contrast(125%);
+}   
+.card-icon-verde {
+    filter: brightness(0) saturate(100%) invert(90%) sepia(7%) saturate(6859%) hue-rotate(70deg) brightness(100%) contrast(100%);
+}   
+.card-icon-amarelo {
+    filter: brightness(0) saturate(100%) invert(89%) sepia(57%) saturate(576%) hue-rotate(358deg) brightness(95%) contrast(95%);
+}   
+
+.consultar-input-wrapper {
+    position: relative;
+    width: 100%; 
+    font-size: 16px; /* <-- CONTROLA O TAMANHO DA FONTE E DO ÍCONE */
+}
+.consultar-input-field .icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #666;
+    width: 16px;
+    height: 16px;
+}
+
+.consultar-input-field button[type="submit"]:hover {
+    transition: background-color 0.3s ease;
+    background-color: var(--primary-bg-color);
+}
+
 </style>

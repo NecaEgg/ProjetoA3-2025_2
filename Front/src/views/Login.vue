@@ -38,7 +38,7 @@ export default {};
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 #login {
     display: flex;
     justify-content: center;
@@ -49,7 +49,6 @@ export default {};
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Mudar isso para paginas que nao e o login (flex-start)*/
     align-items: center;
     width: 100%;
     height: 100%;
@@ -107,7 +106,7 @@ export default {};
 .input-wrapper {
     position: relative;
     width: 100%; 
-    font-size: 16px; /* <-- CONTROLA O TAMANHO DA FONTE E DO ÍCONE */
+    font-size: 16px;
 }
 
 .input-field .icon {
@@ -181,6 +180,11 @@ export default {};
 
 .login .signup .signup-link:hover {
     transition: background-color 0.3s ease;
-    background-color: var(--secondary-bg-color);
+    background-color: var(--primary-bg-color);
+}
+
+.login button[type="submit"]:hover {
+    transition: background-color 0.3s ease;
+    background-color: var(--primary-bg-color);
 }
 </style>

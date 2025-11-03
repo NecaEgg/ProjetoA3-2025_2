@@ -1,9 +1,15 @@
 <script>
 export default {
+    methods: {
+        denunciar(){
+            this.$router.push('/denunciar')
+        }
+    }
 };
 </script>
 
 <template>
+    <div id="dicas-seguranca">
     <div class="guia-seguranca-page">
         
         <section class="hero-section">
@@ -11,10 +17,10 @@ export default {
                 <h1>Guia de Segurança: Proteja-se Contra Golpes de Falsas Centrais</h1>
                 <p>Aprenda a identificar e se proteger de fraudes online e por telefone com nossas dicas práticas e fáceis de entender.</p>
                 
-                <a href="#" class="btn btn-primary">Denunciar uma Fraude</a>
+                <button @click="denunciar()" class="btn btn-primary">Denunciar uma Fraude</button>
             </div>
             <div class="hero-image">
-                <img src=' ' alt="Escudo de Segurança">
+                <img src='../assets/icons/cyber-security-concept-digital-art.jpg' alt="Escudo de Segurança">
             </div>
         </section>
 
@@ -23,19 +29,19 @@ export default {
             
             <div class="info-grid columns-3">
                 <div class="info-card">
-                    <img class="icon icon-yellow" src=' ' alt="Ícone de Alerta">
+                    <img class="icon icon-yellow" src='../assets/icons/hourglass-solid-full.svg' alt="Ícone de Alerta">
                     <h3>Pedidos Urgentes</h3>
                     <p>Fraudadores criam um senso de urgência para que você não pense com clareza. Desconfie de qualquer pedido para "agir agora".</p>
                 </div>
                 
                 <div class="info-card">
-                    <img class="icon icon-red" src=' ' alt="Ícone de Link">
+                    <img class="icon icon-red" src='../assets/icons/link-slash-solid-full.svg' alt="Ícone de Link">
                     <h3>Links Suspeitos</h3>
                     <p>Nunca clique em links recebidos por SMS ou e-mails não solicitados. Verifique sempre o remetente e o domínio.</p>
                 </div>
                 
                 <div class="info-card">
-                    <img class="icon icon-blue" src=' ' alt="Ícone de Dados">
+                    <img class="icon icon-blue" src='../assets/icons/user-shield-solid-full.svg' alt="Ícone de escudo">
                     <h3>Solicitação de Dados</h3>
                     <p>Empresas legítimas nunca pedem senhas, códigos de segurança ou dados de cartão de crédito por telefone ou mensagem.</p>
                 </div>
@@ -47,25 +53,25 @@ export default {
             
             <div class="info-grid columns-2">
                 <div class="info-card">
-                    <img class="icon icon-green" src=' ' alt="Ícone de Desligar">
+                    <img class="icon icon-green" src='../assets/icons/phone-slash-solid-full.svg' alt="Ícone de Desligar">
                     <h3>Desligue a Chamada</h3>
                     <p>Se receber uma ligação suspeita, desligue imediatamente. Não forneça nenhuma informação pessoal.</p>
                 </div>
                 
                 <div class="info-card">
-                    <img class="icon icon-green" src=' ' alt="Ícone de Verificar">
+                    <img class="icon icon-green" src='../assets/icons/check-double-solid-full.svg' alt="Ícone de Verificar">
                     <h3>Verifique a Fonte</h3>
                     <p>Procure o número de telefone oficial da empresa no site dela e entre em contato diretamente para confirmar a legitimidade da comunicação.</p>
                 </div>
 
                 <div class="info-card">
-                    <img class="icon icon-green" src=' ' alt="Ícone de Bloquear">
+                    <img class="icon icon-green" src='../assets/icons/ban-solid-full.svg' alt="Ícone de Bloquear">
                     <h3>Bloqueie o Número</h3>
                     <p>Bloqueie o número de telefone ou o remetente do e-mail para evitar futuros contatos.</p>
                 </div>
 
                 <div class="info-card">
-                    <img class="icon icon-green" src=' ' alt="Ícone de Denunciar">
+                    <img class="icon icon-green" src='../assets/icons/circle-exclamation-solid-full.svg' alt="Ícone de Denunciar">
                     <h3>Denuncie a Tentativa</h3>
                     <p>Use nosso portal para denunciar a tentativa de fraude e ajude a alertar outras pessoas.</p>
                 </div>
@@ -73,13 +79,27 @@ export default {
         </section>
 
     </div>
+    </div>
 </template>
 
 <style scoped>
+
+#dicas-seguranca {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .guia-seguranca-page {
    width: 100%;
-   padding: 60% 20px 20px 20px; 
+   padding: 20px; 
    box-sizing: border-box;
+     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .hero-section {
@@ -109,17 +129,22 @@ export default {
    margin-bottom: 32px;
 }
 
+.hero-content button {
+    border: none;
+    cursor: pointer;
+}
+
 .hero-image {
    flex: 1; 
    text-align: center;
+   max-width: 45%;
 }
 
 .hero-image img {
-   max-width: 450px;
    width: 100%;
-   border-radius: 12px;
+   border-radius: 10px;
    background-color: #e0e0e0; 
-   min-height: 300px; 
+   object-fit: fill;
 }
 
 .btn-primary {
@@ -178,22 +203,30 @@ export default {
    object-fit: contain; 
 }
 
-.icon-yellow { background-color: #fef0c7; } 
-.icon-red { background-color: #fee4e2; } 
-.icon-blue { background-color: #d1e9ff; } 
-.icon-green { background-color: #d1fadf; } 
+.icon-yellow { 
+    filter: brightness(0) saturate(100%) invert(89%) sepia(57%) saturate(576%) hue-rotate(358deg) brightness(95%) contrast(95%);
+} 
+.icon-red { 
+    filter: brightness(0) saturate(100%) invert(16%) sepia(74%) saturate(6831%) hue-rotate(3deg) brightness(103%) contrast(125%);
+ } 
+.icon-blue {
+    filter: brightness(0) saturate(100%) invert(32%) sepia(89%) saturate(4948%) hue-rotate(220deg) brightness(104%) contrast(96%);
+} 
+.icon-green { 
+    filter: brightness(0) saturate(100%) invert(90%) sepia(7%) saturate(6859%) hue-rotate(70deg) brightness(100%) contrast(100%);
+} 
 
 
 .info-card h3 {
    font-size: 1.25rem; 
    font-weight: 600;
-   color: var(--text-color, #333);
+   color: var(--text-color);
    margin-bottom: 8px;
 }
 
 .info-card p {
    font-size: 0.95rem; 
-   color: var(--text-color-light, #666);
+   color: var(--text-color);
    line-height: 1.5;
    margin: 0;
 }
