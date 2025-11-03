@@ -20,7 +20,7 @@ export default {
                 <button @click="denunciar()" class="btn btn-primary">Denunciar uma Fraude</button>
             </div>
             <div class="hero-image">
-                <img src='../assets/icons/cyber-security-concept-digital-art.jpg' alt="Escudo de Segurança">
+                <img src='../assets/images/cyber-security-concept-digital-art.jpg' alt="Escudo de Segurança">
             </div>
         </section>
 

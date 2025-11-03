@@ -1,5 +1,36 @@
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            bancos: [
+                { value: "banco-do-brasil", text: "Banco do Brasil" },
+                { value: "bradesco", text: "Bradesco" },
+                { value: "caixa", text: "Caixa Econômica Federal" },
+                { value: "itau", text: "Itaú" },
+                { value: "santander", text: "Santander" },
+                { value: "nubank", text: "Nubank" },
+                { value: "banco-inter", text: "Banco Inter" },
+                { value: "c6-bank", text: "C6 Bank" },
+                { value: "mercado-pago", text: "Mercado Pago" },
+                { value: "picpay", text: "PicPay" },
+                { value: "banco-pan", text: "Banco Pan" },
+                { value: "bmg", text: "BMG" },
+                { value: "outro-banco", text: "Outra Instituição Financeira (Não listada)" }
+            ]
+        }
+    },
+    mounted() {
+        const outroIndex = this.bancos.findIndex(banco => banco.value === 'outro-banco');
+        let outroBancoItem = null;
+        if (outroIndex > -1) {
+            outroBancoItem = this.bancos.splice(outroIndex, 1)[0];
+        }
+        this.bancos.sort((a, b) => a.text.localeCompare(b.text));
+        if (outroBancoItem) {
+            this.bancos.push(outroBancoItem);
+        }
+    }
+};
 </script>
 <template>
     <div id="denunciar">
@@ -9,10 +40,10 @@ export default {};
                 <div class="denunciar-input-field">
                     <p class="texto"> Número de Telefone do Golpista</p>
                     <div class="denunciar-input-wrapper">
-                            <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
-                            <img class="icon" src="../assets/icons/phone-solid-full.svg">
-                        </div>
-                    
+                        <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                        <img class="icon" src="../assets/icons/phone-solid-full.svg">
+                    </div>
+
 
                 </div>
                 <div class="denunciar-input-field">
@@ -25,19 +56,9 @@ export default {};
                     <select id="empresa-select" name="instituicao" required>
                         <option value="" disabled selected>-- Selecione uma instituição --</option>
 
-                        <option value="banco-do-brasil">Banco do Brasil</option>
-                        <option value="bradesco">Bradesco</option>
-                        <option value="caixa">Caixa Econômica Federal</option>
-                        <option value="itau">Itaú</option>
-                        <option value="santander">Santander</option>
-                        <option value="nubank">Nubank</option>
-                        <option value="banco-inter">Banco Inter</option>
-                        <option value="c6-bank">C6 Bank</option>
-                        <option value="mercado-pago">Mercado Pago</option>
-                        <option value="picpay">PicPay</option>
-                        <option value="banco-pan">Banco Pan</option>
-                        <option value="bmg">BMG</option>
-                        <option value="outro-banco">Outra Instituição Financeira (Não listada)</option>
+                        <option v-for="banco in bancos" :key="banco.value" :value="banco.value">
+                            {{ banco.text }}
+                        </option>
                     </select>
                 </div>
                 <div class='denunciar-input-field'>
@@ -53,13 +74,14 @@ export default {};
         </div>
     </div>
 </template>
+
 <style scoped>
 #denunciar {
     display: flex;
     justify-content: center;
-    align-items: flex-start; 
-    padding-top: 0%; 
-    min-height: 100vh; 
+    align-items: flex-start;
+    padding-top: 0%;
+    min-height: 100vh;
     box-sizing: border-box;
 }
 
@@ -73,7 +95,6 @@ export default {};
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /* Mudar isso para paginas que nao e o denunciar (flex-start)*/
     align-items: center;
     width: 100%;
     height: 100%;
@@ -117,7 +138,9 @@ export default {};
     margin: margin-bottom;
 }
 
-.denunciar-input-field input, #descricao-golpe, #empresa-select {
+.denunciar-input-field input,
+#descricao-golpe,
+#empresa-select {
     outline: none;
     width: 100%;
     height: 100%;
@@ -129,7 +152,8 @@ export default {};
     color: var(--text-color);
 }
 
-#descricao-golpe, #empresa-select {
+#descricao-golpe,
+#empresa-select {
     padding: 10px;
 }
 
@@ -146,8 +170,8 @@ export default {};
 
 .denunciar-input-wrapper {
     position: relative;
-    width: 100%; 
-    font-size: 16px; /* <-- CONTROLA O TAMANHO DA FONTE E DO ÍCONE */
+    width: 100%;
+    font-size: 16px;
 }
 
 .denunciar-input-field .icon {

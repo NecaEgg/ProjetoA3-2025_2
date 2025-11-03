@@ -11,11 +11,11 @@ export default {};
                 <h1>Painel de Análise de Fraudes</h1>
                 <p>Visão geral das denúncias e tendências de fraude.</p>
             </div>
-            <div class="time-filter">
-                <!-- <img src=' ' alt="Calendário" class="icon"> -->
+            <!-- <div class="time-filter">
+                <img src=' ' alt="Calendário" class="icon">
                 <span>Últimos 30 Dias</span>
-                <!-- <img src=' ' alt="Seta" class="icon-arrow"> -->
-            </div>
+                <img src=' ' alt="Seta" class="icon-arrow">
+            </div> -->
         </section>
 
         <section class="stats-grid">
@@ -47,7 +47,7 @@ export default {};
                 <div class="bar-chart-container">
                     <div class="bar-wrapper">
                         <div class="bar" style="height: 160px;"></div>
-                        <p class="label">BANCÁRIO</p>
+                        <p class="label">PHISHING</p>
                     </div>
                     <div class="bar-wrapper">
                         <div class="bar" style="height: 100px;"></div>
@@ -55,7 +55,7 @@ export default {};
                     </div>
                     <div class="bar-wrapper">
                         <div class="bar highlight" style="height: 220px;"></div>
-                        <p class="label">PHISHING</p>
+                        <p class="label">BANCÁRIO</p>
                     </div>
                     <div class="bar-wrapper">
                         <div class="bar" style="height: 140px;"></div>
@@ -75,7 +75,7 @@ export default {};
             <div class="chart-card">
                 <h3>Tendência de Denúncias</h3>
                 <div class="line-chart-placeholder">
-                    <img src=' ' alt="Gráfico de Tendência de Denúncias">
+                    <img src='../assets/images/zen_jOM3F9vaTd.png' alt="Gráfico de Tendência de Denúncias">
                 </div>
                 <div class="chart-labels">
                     <span>SEMANA 1</span>

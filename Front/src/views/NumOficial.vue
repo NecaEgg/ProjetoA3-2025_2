@@ -7,7 +7,7 @@ export default {
                 {
                     id: 1,
                     name: 'Itaú Unibanco',
-                    logoSrc: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcompanieslogo.com%2Fimg%2Forig%2FITUB-1ebef8c5.png%3Ft%3D1649084582&f=1&nofb=1&ipt=7d24bb3543862ea575e16df91ff98126a7e6a5c961bf0b3e0280e36fcb05beb5', 
+                    logoSrc: './src/assets/images/itau.png', 
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4004 4828' },
                         { title: 'Demais Localidades', number: '0800 970 4828' },
@@ -17,9 +17,9 @@ export default {
                 {
                     id: 2,
                     name: 'Banco do Brasil',
-                    logoSrc: 'https://play-lh.googleusercontent.com/1-aNhsSPNqiVluwNGZar_7F5PbQ4u1zteuJ1jumnArhe8bfYHHaVwu4aVOF5-NAmLaA=w240-h480', 
+                    logoSrc: './src/assets/images/BB.png', 
                     contacts: [
-                        { title: 'Central de Atendimento', number: '4004 0001 / 0800 729 0001' },
+                        { title: 'Capitais e Regiões Metrop. / Demais Localidades', number: '4004 0001 / 0800 729 0001' },
                         { title: 'WhatsApp Oficial', number: '(61) 4004 0001' },
                         { title: 'Ouvidoria', number: '0800 729 5678' }
                     ]
@@ -27,7 +27,7 @@ export default {
                 {
                     id: 3,
                     name: 'Nubank',
-                    logoSrc: 'https://play-lh.googleusercontent.com/NPkx0aiwABB31gBw_CuZO9Rwukhir-BwemxfNlAVjT6smwk6QgUbb3XrmsSSClfzk0dY=w240-h480', 
+                    logoSrc: './src/assets/images/nu.png', 
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4020 0185' },
                         { title: 'Demais Localidades', number: '0800 591 2117' },
@@ -37,9 +37,9 @@ export default {
                 {
                     id: 4,
                     name: 'Bradesco',
-                    logoSrc: 'https://play-lh.googleusercontent.com/ReQEaxm44OuduIlJEVO_-xs9iZXSyRNdzGKrONYoLSgAdOzyhPKTb1xuuoPXK6tABm0=w240-h480',
+                    logoSrc: './src/assets/images/bradesco.png',
                     contacts: [
-                        { title: 'Fone Fácil', number: '4002 0022 / 0800 570 0022' },
+                        { title: 'Capitais e Regiões Metrop. / Demais Localidades', number: '4002 0022 / 0800 570 0022' },
                         { title: 'SAC', number: '0800 704 8383' },
                         { title: 'Ouvidoria', number: '0800 727 9933' }
                     ]
@@ -47,9 +47,9 @@ export default {
                 {
                     id: 5,
                     name: 'Santander',
-                    logoSrc: 'https://play-lh.googleusercontent.com/g_QDzrOlw8Belx8qb47fUu0MPL6AVFzDdbOz_NJZYQDNLveHYxwiUoe09Wvkxf-_548q=w240-h480',
+                    logoSrc: './src/assets/images/santander.png',
                     contacts: [
-                        { title: 'Central de Atendimento', number: '4004 3535 / 0800 702 3535' },
+                        { title: 'Capitais e Regiões Metrop. / Demais Localidades', number: '4004 3535 / 0800 702 3535' },
                         { title: 'SAC', number: '0800 762 7777' },
                         { title: 'Ouvidoria', number: '0800 726 0322' }
                     ]
@@ -57,9 +57,9 @@ export default {
                 {
                     id: 6,
                     name: 'Caixa Econômica Federal',
-                    logoSrc: 'https://play-lh.googleusercontent.com/ubV0x2kGJIEe10shxuFnH9Cy21OgHARwVUZ89nyE0YOZN9c25ov_dyHdk1rMgbPvoDI=w240-h480',
+                    logoSrc: './src/assets/images/caixa.png',
                     contacts: [
-                        { title: 'Alô Caixa', number: '4004 0104 / 0800 104 0104' },
+                        { title: 'Capitais e Regiões Metrop. / Demais Localidades', number: '4004 0104 / 0800 104 0104' },
                         { title: 'WhatsApp', number: '0800 104 0104' },
                         { title: 'SAC', number: '0800 726 0101' }
                     ]
@@ -67,7 +67,7 @@ export default {
                 {
                     id: 7,
                     name: 'Banco Inter',
-                    logoSrc: 'https://play-lh.googleusercontent.com/DABQ3z4xA93QNsK9wqR2LdnamoDHkaKc-h1AueqJrVE7pP9GkIvZqf_URfxOIiNbFyzK=w240-h480',
+                    logoSrc: './src/assets/images/inter.png',
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '3003 4070' },
                         { title: 'Demais Localidades', number: '0800 940 0007' },
@@ -77,7 +77,7 @@ export default {
                 {
                     id: 8,
                     name: 'C6 Bank',
-                    logoSrc: 'https://play-lh.googleusercontent.com/qYXhGgBxFLr5xgnv0AGhqW9v7tyedb_i5AVoebI6pow5pWPNZH1qEHnslmSHNkVpB-g=w240-h480',
+                    logoSrc: './src/assets/images/c6.png',
                     contacts: [
                         { title: 'WhatsApp', number: '(11) 2832 6088' },
                         { title: 'Capitais', number: '3003 6116' },
@@ -87,7 +87,7 @@ export default {
                 {
                     id: 9,
                     name: 'PicPay',
-                    logoSrc: 'https://play-lh.googleusercontent.com/pTvc9kCumx_24eJDwGUpvcBwljcIBkrsL3qHwhBW2NalMQ-XxTtHRV9YAJanBxkV0Rw=w240-h480',
+                    logoSrc: './src/assets/images/picpay.png',
                     contacts: [
                         { title: 'Central de Atendimento', number: '0800 025 8000' },
                         { title: 'Ouvidoria', number: '0800 025 2000' }
@@ -96,7 +96,7 @@ export default {
                 {
                     id: 10,
                     name: 'Mercado Pago',
-                    logoSrc: 'https://play-lh.googleusercontent.com/UrB8aayxpFSw0zzKNFSWGgqXbxfpQ_U_DLPCnjYVAlWN8GsnMkprpD80l3k6c0hEOKQRpnTxGtGeddgV3wFq7w=w240-h480',
+                    logoSrc: './src/assets/images/mercadopago.png',
                     contacts: [
                         { title: 'Central de Atendimento', number: '0800 637 7246' },
                         { title: 'WhatsApp', number: '(11) 98803-2875' }
@@ -105,7 +105,7 @@ export default {
                 {
                     id: 11,
                     name: 'BTG Pactual',
-                    logoSrc: 'https://play-lh.googleusercontent.com/0y84dcSeljAid36WeCs-9FWY4fENzxVilh1TS9G4jV30VHsFHJ3lGofMeS3w5hpvRk0D=s48',
+                    logoSrc: './src/assets/images/btg.png',
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4007 2511' },
                         { title: 'Demais Localidades', number: '0800 001 2511' },
@@ -115,7 +115,7 @@ export default {
                 {
                     id: 12,
                     name: 'Banco Pan',
-                    logoSrc: 'https://play-lh.googleusercontent.com/XMa2dHPpQlze89nhfDQP6LV9Az01_ayRyxfOw5IQUu6oyBJLLNczL26Oa-UUFwQf4A=w240-h480',
+                    logoSrc: './src/assets/images/pan.png',
                     contacts: [
                         { title: 'Capitais e Regiões Metrop.', number: '4003 0101' },
                         { title: 'Demais Localidades', number: '0800 888 0101' },
@@ -211,7 +211,6 @@ export default {
     width: 100%;
     padding: 20px; 
     box-sizing: border-box;
-
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
