@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
     { path : '/', name:'DicasSeguranca', component: () => import('../views/DicasSeguranca.vue') },
     { path : '/login', name:'Login', component: () => import('../views/Login.vue') },
+    { path : '/cadastrar', name:'Cadastrar', component: () => import('../views/Cadastrar.vue') },
     { path : '/denunciar', name:'Denunciar', component: () => import('../views/Denunciar.vue') },
     { path : '/numoficial', name:'NumOficial', component: () => import('../views/NumOficial.vue') },
     { path : '/estatistica', name:'Estatistica', component: () => import('../views/Estatistica.vue') },

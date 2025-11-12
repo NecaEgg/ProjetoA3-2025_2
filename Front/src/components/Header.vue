@@ -6,8 +6,7 @@ export default {};
     <header class="navbar">
         <nav class="nav-container">
             <router-link to="/" class="logo">
-                <span class="logo-icon">🛡️</span>
-                SafeLine
+                <img src="/safeline.png" alt="Logo SafeLine">
             </router-link>
 
             <div class="nav-right">
@@ -52,8 +51,8 @@ export default {};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1300px;
-    margin: 3 auto;
+   /* max-width: 1300px;
+    margin: auto;*/
     height: 100%;
 }
 
@@ -66,10 +65,10 @@ export default {};
     font-weight: 600;
 }
 
-.logo-icon {
-    color: var(--primary-color);
-    font-size: 24px;
-    margin-right: 10px;
+.logo img {
+    height: 30px; /* Ou o tamanho que desejar */
+    width: auto;
+    display: block;
 }
 
 .nav-right {

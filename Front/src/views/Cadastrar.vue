@@ -2,10 +2,17 @@
 export default {};
 </script>
 <template>
-    <div id="login">
+    <div id="cadastrar">
         <div class="container">
-            <form class="login">
-                <h1>Acesse sua conta</h1>
+            <form class="cadastrar">
+                <h1>Cadastre-se</h1>
+                <div class="input-field">
+                    <p class="texto"> Digite seu Nome:</p>
+                        <div class="input-wrapper">
+                            <input type="text" placeholder='Nome' required />
+                            <img class="icon" src="../assets/icons/user-solid-full.svg">
+                        </div>
+                </div>
                 <div class="input-field">
                     <p class="texto"> Digite seu Email:</p>
                         <div class="input-wrapper">
@@ -21,30 +28,26 @@ export default {};
                         </div>
                 </div>
                 <div class='input-field'>
+                    <p class="texto"> Confirme sua senha:</p>
+                        <div class="input-wrapper">
+                            <input type="password" placeholder='Confirme sua Senha' required />
+                            <img class="icon" src="../assets/icons/lock-solid-full.svg">
+                        </div>
+                </div>
+                <div class='input-field'>
                     <button type="submit">Entrar</button>
-                </div>
-                <div class='recall-forget'>
-                    <a href="#">Esqueci minha senha</a>
-                </div>
-                <div class="signup">
-                    <p>
-                        Ainda não tem uma conta?
-                    </p>
-                    <div class="signup-link">
-                        <router-link  to="/cadastrar">
-                            Cadastre-se
-                        </router-link>
-                    </div>
                 </div>
             </form>
         </div>
     </div>
 </template>
 <style scoped>
-#login {
+#cadastrar {
     display: flex;
     justify-content: center;
     align-items: flex-start; 
+    padding-top: 0%; 
+    min-height: 100vh; 
     box-sizing: border-box;
 }
 
@@ -66,7 +69,7 @@ export default {};
     margin-bottom: 1px;
 }
 
-.login {
+.cadastrar {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -78,12 +81,12 @@ export default {};
     height: max-content;
 }
 
-.login h1 {
+.cadastrar h1 {
     text-align: center;
     color: #333;
 }
 
-.login .input-field {
+.cadastrar .input-field {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -122,7 +125,7 @@ export default {};
     height: 16px;
 }
 
-.login .recall-forget {
+.cadastrar .recall-forget {
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
@@ -140,7 +143,7 @@ export default {};
     text-decoration: underline;
 }
 
-.login button {
+.cadastrar button {
     width: 85%;
     padding: 10px;
     border: none;
@@ -151,7 +154,7 @@ export default {};
     cursor: pointer;
 }
 
-.login .signup {
+.cadastrar .signup {
     text-align: center;
     color: var(--text-color);
     display: flex;
@@ -164,7 +167,7 @@ export default {};
 }
 
 
-.login .signup .signup-link {
+.cadastrar .signup .signup-link {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -174,19 +177,19 @@ export default {};
     border-radius: 10px;
 }
 
-.login .signup .signup-link a {
+.cadastrar .signup .signup-link a {
     text-decoration: none;
     color: var(--primary-color);
     margin: 0;
     padding: 0;
 }
 
-.login .signup .signup-link:hover {
+.cadastrar .signup .signup-link:hover {
     transition: background-color 0.3s ease;
     background-color: var(--primary-bg-color);
 }
 
-.login button[type="submit"]:hover {
+.cadastrar button[type="submit"]:hover {
     transition: background-color 0.3s ease;
     background-color: var(--primary-bg-color);
 }
