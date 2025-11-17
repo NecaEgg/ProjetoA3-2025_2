@@ -1,5 +1,53 @@
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            email: "",
+            password: ""
+        };
+    },
+    methods: {
+        async login() {
+            if (!this.email || !this.password) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+            const response = await fetch('http://localhost:8080/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: this.email,
+                    password: this.password
+                }),
+                credentials: 'include'
+            });
+            if (response.status === 200) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                this.$router.push('/dashboard');
+            }
+            else if (response.status === 401) {
+                alert("Credenciais inválidas. Tente novamente.");
+            }   
+            else if (response.status === 403) {
+                alert("Credenciais expiradas, redefina sua senha.");
+            }
+            else if (response.status === 404) {
+                alert("Usuário não encontrado. Verifique seu email.");
+            }
+            else {
+                alert("Falha no login. Verifique suas credenciais.");
+            }
+
+        }
+    }
+};
+
+
+
+
 </script>
 <template>
     <div id="login">
@@ -8,20 +56,20 @@ export default {};
                 <h1>Acesse sua conta</h1>
                 <div class="input-field">
                     <p class="texto"> Digite seu Email:</p>
-                        <div class="input-wrapper">
-                            <input type="email" placeholder='E-mail' required />
-                            <img class="icon" src="../assets/icons/envelope-solid-full.svg">
-                        </div>
+                    <div class="input-wrapper">
+                        <input type="email" placeholder='E-mail' required v-model="email"/>
+                        <img class="icon" src="../assets/icons/envelope-solid-full.svg">
+                    </div>
                 </div>
                 <div class='input-field'>
                     <p class="texto"> Digite sua Senha:</p>
-                        <div class="input-wrapper">
-                            <input type="password" placeholder='Senha' required />
-                            <img class="icon" src="../assets/icons/lock-solid-full.svg">
-                        </div>
+                    <div class="input-wrapper">
+                        <input type="password" placeholder='Senha' required v-model="password"/>
+                        <img class="icon" src="../assets/icons/lock-solid-full.svg">
+                    </div>
                 </div>
                 <div class='input-field'>
-                    <button type="submit">Entrar</button>
+                    <button @click="login()">Entrar</button>
                 </div>
                 <div class='recall-forget'>
                     <a href="#">Esqueci minha senha</a>
@@ -31,7 +79,7 @@ export default {};
                         Ainda não tem uma conta?
                     </p>
                     <div class="signup-link">
-                        <router-link  to="/cadastrar">
+                        <router-link to="/cadastrar">
                             Cadastre-se
                         </router-link>
                     </div>
@@ -44,7 +92,7 @@ export default {};
 #login {
     display: flex;
     justify-content: center;
-    align-items: flex-start; 
+    align-items: flex-start;
     box-sizing: border-box;
 }
 
@@ -104,11 +152,12 @@ export default {};
     background-color: var(--primary-color);
     font-size: 16px;
     color: var(--text-color);
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
+
 .input-wrapper {
     position: relative;
-    width: 100%; 
+    width: 100%;
     font-size: 16px;
 }
 

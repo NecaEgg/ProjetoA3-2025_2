@@ -66,7 +66,7 @@ export default {};
 }
 
 .logo img {
-    height: 30px; /* Ou o tamanho que desejar */
+    height: 30px;
     width: auto;
     display: block;
 }
