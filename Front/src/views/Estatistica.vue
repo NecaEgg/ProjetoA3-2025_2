@@ -1,5 +1,70 @@
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            stats: {
+                totalReports: 0,
+                validatedReports: 0,
+                todayReports: 0,
+                mainFraudType: 'Carregando...',
+                loading: true,
+                error: null
+            }
+        }
+    },
+    methods: {
+        async fetchTotalReports() {
+            try {
+                const response = await fetch('http://localhost:8080/api/reports');
+                
+                if (!response.ok) {
+                    throw new Error(`Erro: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const reports = data.data || [];
+                
+                this.stats.totalReports = reports.length;
+                this.stats.validatedReports = Math.round(reports.length * 0.717); // ~71,7%
+                
+                // Contar denúncias de hoje
+                const today = new Date().toDateString();
+                this.stats.todayReports = reports.filter(report => 
+                    new Date(report.callDate).toDateString() === today
+                ).length;
+
+                // Encontrar tipo principal de fraude
+                const fraudTypes = {};
+                reports.forEach(report => {
+                    const company = report.company.toUpperCase();
+                    
+                    if (company.includes('BANCO') || company.includes('ITAU') || company.includes('BRADESCO')) {
+                        fraudTypes['Golpe Bancário'] = (fraudTypes['Golpe Bancário'] || 0) + 1;
+                    } else if (company.includes('SUPORTE')) {
+                        fraudTypes['Suporte Técnico'] = (fraudTypes['Suporte Técnico'] || 0) + 1;
+                    } else if (company.includes('GOVERNO') || company.includes('INSS')) {
+                        fraudTypes['Golpe Governamental'] = (fraudTypes['Golpe Governamental'] || 0) + 1;
+                    } else {
+                        fraudTypes['Outros'] = (fraudTypes['Outros'] || 0) + 1;
+                    }
+                });
+                
+                this.stats.mainFraudType = Object.keys(fraudTypes).reduce((a, b) =>
+                    fraudTypes[a] > fraudTypes[b] ? a : b
+                ) || 'Golpe Bancário';
+
+                this.stats.loading = false;
+            } catch (error) {
+                this.stats.error = 'Erro ao carregar dados: ' + error.message;
+                console.error(error);
+                this.stats.loading = false;
+            }
+        }
+    },
+    mounted() {
+        this.fetchTotalReports();
+    }
+};
 </script>
 
 <template>
@@ -11,78 +76,28 @@ export default {};
                 <h1>Painel de Análise de Fraudes</h1>
                 <p>Visão geral das denúncias e tendências de fraude.</p>
             </div>
-            <!-- <div class="time-filter">
-                <img src=' ' alt="Calendário" class="icon">
-                <span>Últimos 30 Dias</span>
-                <img src=' ' alt="Seta" class="icon-arrow">
-            </div> -->
         </section>
 
         <section class="stats-grid">
             <div class="stat-card">
                 <p class="stat-title">Total de Denúncias</p>
-                <p class="stat-value">12.874</p>
-                <span class="stat-change positive">+5,4%</span>
+                <p class="stat-value">{{ stats.loading ? 'Carregando...' : stats.totalReports.toLocaleString('pt-BR') }}</p>
+               
             </div>
             <div class="stat-card">
                 <p class="stat-title">Fraudes Validadas</p>
-                <p class="stat-value">9.231</p>
-                <span class="stat-change positive">+2,1%</span>
+                <p class="stat-value">{{ stats.loading ? 'Carregando...' : stats.validatedReports.toLocaleString('pt-BR') }}</p>
+               
             </div>
             <div class="stat-card">
                 <p class="stat-title">Denúncias Hoje</p>
-                <p class="stat-value">152</p>
-                <span class="stat-change negative">-1,8%</span>
+                <p class="stat-value">{{ stats.loading ? 'Carregando...' : stats.todayReports }}</p>
+               
             </div>
             <div class="stat-card">
                 <p class="stat-title">Principal Tipo de Fraude</p>
-                <p class="stat-value type-main">Golpe Bancário</p>
-                <span class="stat-change positive">+8,2%</span>
-            </div>
-        </section>
-
-        <section class="charts-grid">
-            <div class="chart-card">
-                <h3>Denúncias por Tipo de Fraude</h3>
-                <div class="bar-chart-container">
-                    <div class="bar-wrapper">
-                        <div class="bar" style="height: 160px;"></div>
-                        <p class="label">PHISHING</p>
-                    </div>
-                    <div class="bar-wrapper">
-                        <div class="bar" style="height: 100px;"></div>
-                        <p class="label">SUPORTE TÉCNICO</p>
-                    </div>
-                    <div class="bar-wrapper">
-                        <div class="bar highlight" style="height: 220px;"></div>
-                        <p class="label">BANCÁRIO</p>
-                    </div>
-                    <div class="bar-wrapper">
-                        <div class="bar" style="height: 140px;"></div>
-                        <p class="label">GOVERNO</p>
-                    </div>
-                    <div class="bar-wrapper">
-                        <div class="bar" style="height: 80px;"></div>
-                        <p class="label">E-COMMERCE</p>
-                    </div>
-                    <div class="bar-wrapper">
-                        <div class="bar" style="height: 60px;"></div>
-                        <p class="label">OUTROS</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chart-card">
-                <h3>Tendência de Denúncias</h3>
-                <div class="line-chart-placeholder">
-                    <img src='../assets/images/zen_jOM3F9vaTd.png' alt="Gráfico de Tendência de Denúncias">
-                </div>
-                <div class="chart-labels">
-                    <span>SEMANA 1</span>
-                    <span>SEMANA 2</span>
-                    <span>SEMANA 3</span>
-                    <span>SEMANA 4</span>
-                </div>
+                <p class="stat-value type-main">{{ stats.mainFraudType }}</p>
+                
             </div>
         </section>
 

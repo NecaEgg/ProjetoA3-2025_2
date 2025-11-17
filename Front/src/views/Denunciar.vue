@@ -16,7 +16,53 @@ export default {
                 { value: "banco-pan", text: "Banco Pan" },
                 { value: "bmg", text: "BMG" },
                 { value: "outro-banco", text: "Outra Instituição Financeira (Não listada)" }
-            ]
+            ],
+            formData: {
+                phone: '',
+                callDate: '',
+                company: '',
+                description: ''
+            },
+            loading: false,
+            error: null
+        }
+    },
+    methods: {
+        async submitReport(e) {
+            e.preventDefault();
+            this.loading = true;
+            this.error = null;
+
+            try {
+                const response = await fetch('http://localhost:8080/api/reports', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone: this.formData.phone,
+                        callDate: this.formData.callDate,
+                        company: this.formData.company,
+                        description: this.formData.description
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro: ${response.status}`);
+                }
+
+                const data = await response.json();
+                alert('Denúncia feita com sucesso!');
+                this.resetForm();
+            } catch (error) {
+                this.error = 'Erro ao enviar denúncia: ' + error.message;
+                alert(this.error);
+            } finally {
+                this.loading = false;
+            }
+        },
+        resetForm() {
+            this.formData = { phone: '', callDate: '', company: '', description: '' };
         }
     },
     mounted() {
@@ -32,30 +78,27 @@ export default {
     }
 };
 </script>
+
 <template>
     <div id="denunciar">
         <div class="container">
             <h1 class="header-text">Ajude a combater fraudes - Denuncie uma Ligação suspeita!</h1>
-            <form class="denunciar">
+            <form class="denunciar" @submit="submitReport">
                 <div class="denunciar-input-field">
-                    <p class="texto"> Número de Telefone do Golpista</p>
+                    <p class="texto">Número de Telefone do Golpista</p>
                     <div class="denunciar-input-wrapper">
-                        <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                        <input type="tel" v-model="formData.phone" placeholder='(XX) XXXXX-XXXX' required />
                         <img class="icon" src="../assets/icons/phone-solid-full.svg">
                     </div>
-
-
                 </div>
                 <div class="denunciar-input-field">
-                    <p class="texto"> Data da Ligação e Hora Aproximada da Ligação</p>
-                    <input type="datetime-local" required />
-
+                    <p class="texto">Data da Ligação e Hora Aproximada da Ligação</p>
+                    <input type="datetime-local" v-model="formData.callDate" required />
                 </div>
                 <div class="denunciar-input-field">
-                    <label class="texto" for="empresa-select">Suposta Empresa ou Instuição</label>
-                    <select id="empresa-select" name="instituicao" required>
+                    <label class="texto" for="empresa-select">Suposta Empresa ou Instituição</label>
+                    <select id="empresa-select" v-model="formData.company" required>
                         <option value="" disabled selected>-- Selecione uma instituição --</option>
-
                         <option v-for="banco in bancos" :key="banco.value" :value="banco.value">
                             {{ banco.text }}
                         </option>
@@ -63,12 +106,14 @@ export default {
                 </div>
                 <div class='denunciar-input-field'>
                     <label class="texto" for="descricao-golpe">Descreva o que aconteceu (detalhes da ligação)</label>
-                    <textarea style="resize: none" id="descricao-golpe" rows="5"
+                    <textarea style="resize: none" id="descricao-golpe" v-model="formData.description" rows="5"
                         placeholder='Forneça o máximo de detalhes possível, como o que foi dito, se pediram informações pessoais, etc'
                         required></textarea>
                 </div>
                 <div class='denunciar-input-field'>
-                    <button type="submit">Denunciar</button>
+                    <button type="submit" :disabled="loading">
+                        {{ loading ? 'Enviando...' : 'Denunciar' }}
+                    </button>
                 </div>
             </form>
         </div>
