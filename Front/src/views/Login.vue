@@ -12,7 +12,7 @@ export default {
                 alert("Por favor, preencha todos os campos.");
                 return;
             }
-            const response = await fetch('http://localhost:8080/auth/login', {
+            const response = await fetch('http://localhost:8080/api/v1/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ export default {
             });
             if (response.status === 200) {
                 const data = await response.json();
-                localStorage.setItem('token', data.token);
+                localStorage.setItem('token', data.data);
                 this.$router.push('/dashboard');
             }
             else if (response.status === 401) {
@@ -44,10 +44,6 @@ export default {
         }
     }
 };
-
-
-
-
 </script>
 <template>
     <div id="login">

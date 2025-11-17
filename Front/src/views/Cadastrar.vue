@@ -1,41 +1,104 @@
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            loading: false
+        };
+    },
+    methods: {
+        async register() {
+            // Validações
+            if (!this.name || !this.email || !this.password || !this.confirmPassword) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            if (this.password !== this.confirmPassword) {
+                alert("As senhas não coincidem.");
+                return;
+            }
+
+            if (this.password.length < 6) {
+                alert("A senha deve ter no mínimo 6 caracteres.");
+                return;
+            }
+
+            this.loading = true;
+
+            try {
+                const response = await fetch('http://localhost:8080/api/v1/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: this.name,
+                        email: this.email,
+                        password: this.password
+                    })
+                });
+
+                if (response.status === 201) {
+                    alert("Cadastro realizado com sucesso! Faça login para acessar.");
+                    this.$router.push('/login');
+                } else if (response.status === 400) {
+                    const data = await response.json();
+                    alert(data.message || "Erro ao registrar. Verifique os dados.");
+                } else if (response.status === 409) {
+                    alert("Email já cadastrado no sistema. Tente outro email.");
+                } else {
+                    alert("Erro ao registrar. Tente novamente.");
+                }
+            } catch (error) {
+                alert("Erro na conexão: " + error.message);
+            } finally {
+                this.loading = false;
+            }
+        }
+    }
+};
 </script>
 <template>
     <div id="cadastrar">
         <div class="container">
-            <form class="cadastrar">
+            <form class="cadastrar" @submit.prevent="register">
                 <h1>Cadastre-se</h1>
                 <div class="input-field">
-                    <p class="texto"> Digite seu Nome:</p>
-                        <div class="input-wrapper">
-                            <input type="text" placeholder='Nome' required />
-                            <img class="icon" src="../assets/icons/user-solid-full.svg">
-                        </div>
+                    <p class="texto">Digite seu Nome:</p>
+                    <div class="input-wrapper">
+                        <input type="text" placeholder='Nome' required v-model="name" />
+                        <img class="icon" src="../assets/icons/user-solid-full.svg">
+                    </div>
                 </div>
                 <div class="input-field">
-                    <p class="texto"> Digite seu Email:</p>
-                        <div class="input-wrapper">
-                            <input type="email" placeholder='E-mail' required />
-                            <img class="icon" src="../assets/icons/envelope-solid-full.svg">
-                        </div>
+                    <p class="texto">Digite seu Email:</p>
+                    <div class="input-wrapper">
+                        <input type="email" placeholder='E-mail' required v-model="email" />
+                        <img class="icon" src="../assets/icons/envelope-solid-full.svg">
+                    </div>
                 </div>
                 <div class='input-field'>
-                    <p class="texto"> Digite sua Senha:</p>
-                        <div class="input-wrapper">
-                            <input type="password" placeholder='Senha' required />
-                            <img class="icon" src="../assets/icons/lock-solid-full.svg">
-                        </div>
+                    <p class="texto">Digite sua Senha:</p>
+                    <div class="input-wrapper">
+                        <input type="password" placeholder='Senha' required v-model="password" />
+                        <img class="icon" src="../assets/icons/lock-solid-full.svg">
+                    </div>
                 </div>
                 <div class='input-field'>
-                    <p class="texto"> Confirme sua senha:</p>
-                        <div class="input-wrapper">
-                            <input type="password" placeholder='Confirme sua Senha' required />
-                            <img class="icon" src="../assets/icons/lock-solid-full.svg">
-                        </div>
+                    <p class="texto">Confirme sua senha:</p>
+                    <div class="input-wrapper">
+                        <input type="password" placeholder='Confirme sua Senha' required v-model="confirmPassword" />
+                        <img class="icon" src="../assets/icons/lock-solid-full.svg">
+                    </div>
                 </div>
                 <div class='input-field'>
-                    <button type="submit">Entrar</button>
+                    <button type="submit" :disabled="loading">
+                        {{ loading ? 'Registrando...' : 'Cadastrar' }}
+                    </button>
                 </div>
             </form>
         </div>
@@ -152,6 +215,11 @@ export default {};
     color: var(--primary-color);
     font-size: 16px;
     cursor: pointer;
+}
+
+.cadastrar button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .cadastrar .signup {
