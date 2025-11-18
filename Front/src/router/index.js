@@ -16,7 +16,7 @@ const router = createRouter({
     linkActiveClass: 'rota-ativa'
 });
 
-const unsignedRoutes = ['DicasSeguranca', 'Login', 'Cadastrar', 'NumOficial', 'Estatistica', 'Consultar']
+/*const unsignedRoutes = ['Login', 'Cadastrar']
 router.beforeEach((to, from, next) => {
     const isSignedIn = localStorage.getItem('isSignedIn');
 
@@ -25,6 +25,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
-});
+});*/ // Descomentar para versão final
 
 export default router;

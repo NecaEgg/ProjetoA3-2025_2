@@ -22,9 +22,6 @@ export default {};
                         <router-link  to="/denunciar" class="nav-button">
                             Denunciar
                         </router-link>
-                        <router-link  to="/login" class="nav-button">
-                            Login
-                        </router-link>
                         <router-link  to="/consultar" class="nav-button-destaque">
                             Consultar Número
                         </router-link>
