@@ -1,5 +1,6 @@
 package br.com.safe_line.safeline.modules.exception;
 
+import br.com.safe_line.safeline.modules.report.exception.ReportNotFoundException;
 import br.com.safe_line.safeline.modules.response.BaseResponse;
 import br.com.safe_line.safeline.modules.user.exception.EmailAlreadyExistsException;
 import jakarta.validation.ConstraintViolation;
@@ -45,7 +46,7 @@ public class GlobalExceptionHandler {
     // ============================================
     //     USERNAME NOT FOUND (404)
     // ============================================
-    @ExceptionHandler({UsernameNotFoundException.class})
+    @ExceptionHandler({UsernameNotFoundException.class, ReportNotFoundException.class})
     public ResponseEntity<BaseResponse<String>> handleUsernameNotFoundException(RuntimeException ex) {
 
         BaseResponse<String> response = BaseResponse.error(ex.getMessage());
