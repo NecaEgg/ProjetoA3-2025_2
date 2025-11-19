@@ -1,5 +1,76 @@
 <script>
-export default {};
+const NivelRisco = {
+    'Baixo': 'safe',
+    'Moderado': 'moderate',
+    'Alto': 'high'
+}
+
+export default {
+    data() {
+        return {
+            resultados: [{
+                phone: '11999999999',
+                callDate: "17/11/2025 14:30",
+                company: "Safe Line Telecom",
+                description: "sim"
+            }, {
+                phone: '11999999999',
+                callDate: "17/11/2025 15:30",
+                company: "Safe Line Telecom",
+                description: "sim"
+            },
+            {
+                phone: '11999999999',
+                callDate: "17/11/2025 16:30",
+                company: "Safe Line Telecom",
+                description: "sim"
+            },
+            {
+                phone: '11999999999',
+                callDate: "17/11/2025 16:30",
+                company: "Kami LTDA",
+                description: "sim"
+            }]
+        };
+    },
+    methods: {
+        formatarData(data) {
+            if (data) {
+                const ultimoAcesso = luxon.DateTime.fromFormat(data, "dd/LL/yyyy HH:mm")
+
+                return ultimoAcesso.toRelativeCalendar()[0].toUpperCase() + ultimoAcesso.toRelativeCalendar().slice(1);
+            } else {
+                return 'Sem Registro';
+            }
+        },
+        // denunciaMaisRecente(resultados) {
+        //     let denunciaMaisrecente = null
+
+        //     for (let resultado of resultados) {
+        //         const callDate = luxon.DateTime.fromFormat(resultado.callDate, "dd/LL/yyyy HH:mm")
+
+        //         if (!denunciaMaisRecente || callDate > denunciaMaisrecente) {
+        //             denunciaMaisrecente = callDate.toFormat("dd/LL/yyyy HH:mm")
+        //         }
+        //     }
+
+        //     return denunciaMaisrecente
+        // },
+        nivelRisco(quantidadeDenuncias) {
+            if (quantidadeDenuncias <= 5) {
+                return 'Baixo'
+            } else if (quantidadeDenuncias > 5 && quantidadeDenuncias <= 10) {
+                return 'Moderado'
+            } else if (quantidadeDenuncias > 10) {
+                return 'Alto'
+            } else {
+                return 'Não Avaliado'
+            }
+        }
+    },
+    mounted() {
+    }
+};
 </script>
 <template>
     <div id="consultar">
@@ -9,37 +80,45 @@ export default {};
                 <div class="consultar-input-field">
                     <p class="texto"> Número de Telefone</p>
                     <div class="consultar-input-wrapper">
-                            <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
-                            <img class="icon" src="../assets/icons/phone-solid-full.svg">
-                        </div>
+                        <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                        <img class="icon" src="../assets/icons/phone-solid-full.svg">
+                    </div>
                 </div>
                 <div class='consultar-input-field'>
                     <button type="submit">Consultar</button>
                 </div>
             </form>
-            
+
             <h2 class="resultado-text">Resultados da Busca</h2>
 
-            <div class="resultado-container">
-                
+            <div class="resultado-estatisticas">
+                <h4>{{ resultados.length }} Denúncias</h4>
+                <!-- <h4>Última Denúncia: {{ denunciaMaisRecente(resultados) }}</h4> -->
+            </div>
+
+            <div class="resultado-container" v-for="resultado of resultados">
+
                 <div class="resultado-card risk-high">
                     <div class="card-header">
-                        <img class="card-icon card-icon-vermelho" src='../assets/icons/square-xmark-solid-full.svg' alt="Alerta">
+                        <!-- <img class="card-icon card-icon-vermelho" src='../assets/icons/square-xmark-solid-full.svg'
+                            alt="Alerta"> -->
                         <div class="card-title">
-                            <h3>(11) 98765-4321</h3>
-                            <span>28 denúncias recebidas</span>
+                            <h3>{{ resultado.phone }}</h3>
+                            <p>{{ resultado.company }}.</p>
+                            <!-- <span>{{ resultado.reports }} denúncias recebidas</span> -->
                         </div>
-                        <span class="card-tag tag-high">ALTO RISCO</span>
+                        <!-- <span class="card-tag tag-high">{{ resultado.risco }}</span> -->
                     </div>
                     <div class="card-body">
-                        <p>"Usuários relatam tentativas de golpe se passando por banco. Solicitam dados pessoais e senhas."</p>
-                        <span class="timestamp">Última denúncia: 2 dias atrás</span>
+                        <p>"{{ resultado.description }}"</p>
+                        <span class="timestamp">Última denúncia: {{ formatarData(resultado.callDate) }}</span>
                     </div>
                 </div>
-
+                <!-- 
                 <div class="resultado-card risk-safe">
                     <div class="card-header">
-                        <img class="card-icon card-icon-verde" src='../assets/icons/circle-check-solid-full.svg' alt="Seguro">
+                        <img class="card-icon card-icon-verde" src='../assets/icons/circle-check-solid-full.svg'
+                            alt="Seguro">
                         <div class="card-title">
                             <h3>(21) 99999-8888</h3>
                             <span>Nenhuma denúncia encontrada para este número.</span>
@@ -47,13 +126,15 @@ export default {};
                         <span class="card-tag tag-safe">SEM DENÚNCIAS</span>
                     </div>
                     <div class="card-body">
-                        <p>Se você recebeu uma ligação suspeita deste número, seja o primeiro a denunciar e ajude a proteger a comunidade.</p>
+                        <p>Se você recebeu uma ligação suspeita deste número, seja o primeiro a denunciar e ajude a
+                            proteger a comunidade.</p>
                     </div>
                 </div>
 
                 <div class="resultado-card risk-moderate">
                     <div class="card-header">
-                        <img class="card-icon card-icon-amarelo" src='../assets/icons/triangle-exclamation-solid-full.svg' alt="Atenção">
+                        <img class="card-icon card-icon-amarelo"
+                            src='../assets/icons/triangle-exclamation-solid-full.svg' alt="Atenção">
                         <div class="card-title">
                             <h3>(31) 91234-5678</h3>
                             <span>2 denúncias recebidas</span>
@@ -64,7 +145,7 @@ export default {};
                         <p>"Ligação silenciosa, desligam após alguns segundos."</p>
                         <span class="timestamp">Última denúncia: 1 mês atrás</span>
                     </div>
-                </div>
+                </div> -->
 
             </div>
 
@@ -75,9 +156,9 @@ export default {};
 #consultar {
     display: flex;
     justify-content: center;
-    align-items: flex-start; 
-    padding-top: 0%; 
-    min-height: 100vh; 
+    align-items: flex-start;
+    padding-top: 0%;
+    min-height: 100vh;
     box-sizing: border-box;
 }
 
@@ -165,11 +246,25 @@ export default {};
     font-weight: 600;
 }
 
+.resultado-estatisticas {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: space-between;
+    width: 80%;
+}
+
+.resultado-estatisticas h4 {
+    color: var(--secondary-text-color);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .resultado-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 85%; 
+    width: 85%;
     max-width: 100%;
 }
 
@@ -179,7 +274,8 @@ export default {};
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    border-left-width: 4px; 
+    border-left-width: 4px;
+    margin: 10px 0;
 }
 
 .card-header {
@@ -192,11 +288,14 @@ export default {};
 .card-icon {
     width: 32px;
     height: 32px;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .card-title {
-    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
 }
 
 .card-title h3 {
@@ -263,19 +362,23 @@ export default {};
 
 .card-icon-vermelho {
     filter: brightness(0) saturate(100%) invert(16%) sepia(74%) saturate(6831%) hue-rotate(3deg) brightness(103%) contrast(125%);
-}   
+}
+
 .card-icon-verde {
     filter: brightness(0) saturate(100%) invert(90%) sepia(7%) saturate(6859%) hue-rotate(70deg) brightness(100%) contrast(100%);
-}   
+}
+
 .card-icon-amarelo {
     filter: brightness(0) saturate(100%) invert(89%) sepia(57%) saturate(576%) hue-rotate(358deg) brightness(95%) contrast(95%);
-}   
+}
 
 .consultar-input-wrapper {
     position: relative;
-    width: 100%; 
-    font-size: 16px; /* <-- CONTROLA O TAMANHO DA FONTE E DO ÍCONE */
+    width: 100%;
+    font-size: 16px;
+    /* <-- CONTROLA O TAMANHO DA FONTE E DO ÍCONE */
 }
+
 .consultar-input-field .icon {
     position: absolute;
     top: 50%;
@@ -290,5 +393,4 @@ export default {};
     transition: background-color 0.3s ease;
     background-color: var(--primary-bg-color);
 }
-
 </style>

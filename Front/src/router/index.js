@@ -16,15 +16,20 @@ const router = createRouter({
     linkActiveClass: 'rota-ativa'
 });
 
-/*const unsignedRoutes = ['Login', 'Cadastrar']
+const signedRoutes = ['Denunciar']
 router.beforeEach((to, from, next) => {
-    const isSignedIn = localStorage.getItem('isSignedIn');
+    const token = localStorage.getItem('token');
 
-    if (!isSignedIn && !unsignedRoutes.includes(to.name)) {
-        next({ name: 'Login' });
-    } else {
+    if (signedRoutes.includes(to.name)) {
+        if (!token) {
+            next({ name: 'Login' });
+        } else {
+            next();
+        }
+    }
+    else {
         next();
     }
-});*/ // Descomentar para versão final
+})
 
 export default router;
