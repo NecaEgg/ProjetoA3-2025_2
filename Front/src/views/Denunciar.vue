@@ -1,5 +1,9 @@
 <script>
+ import { vMaska } from 'maska/vue'
 export default {
+     directives: {
+        maska: vMaska
+    },
     data() {
         return {
             bancos: [
@@ -87,7 +91,7 @@ export default {
                 <div class="denunciar-input-field">
                     <p class="texto">Número de Telefone do Golpista</p>
                     <div class="denunciar-input-wrapper">
-                        <input type="tel" v-model="formData.phone" placeholder='(XX) XXXXX-XXXX' required />
+                        <input v-maska="'(##) #####-####'" type="text" placeholder="(XX) XXXXX-XXXX" required>
                         <img class="icon" src="../assets/icons/phone-solid-full.svg">
                     </div>
                 </div>

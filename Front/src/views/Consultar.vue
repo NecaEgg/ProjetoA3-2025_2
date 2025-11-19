@@ -1,36 +1,19 @@
 <script>
+import { vMaska } from 'maska/vue'
 const NivelRisco = {
     'Baixo': 'safe',
     'Moderado': 'moderate',
-    'Alto': 'high'
+    'Alto': 'high',
+    'Não Avaliado': 'safe'
 }
 
 export default {
+    directives: { maska: vMaska },
     data() {
         return {
-            resultados: [{
-                phone: '11999999999',
-                callDate: "17/11/2025 14:30",
-                company: "Safe Line Telecom",
-                description: "sim"
-            }, {
-                phone: '11999999999',
-                callDate: "17/11/2025 15:30",
-                company: "Safe Line Telecom",
-                description: "sim"
-            },
-            {
-                phone: '11999999999',
-                callDate: "17/11/2025 16:30",
-                company: "Safe Line Telecom",
-                description: "sim"
-            },
-            {
-                phone: '11999999999',
-                callDate: "17/11/2025 16:30",
-                company: "Kami LTDA",
-                description: "sim"
-            }]
+            NivelRisco: NivelRisco,
+            telefone: '',
+            resultados: []
         };
     },
     methods: {
@@ -43,25 +26,54 @@ export default {
                 return 'Sem Registro';
             }
         },
-        // denunciaMaisRecente(resultados) {
-        //     let denunciaMaisrecente = null
+        async consultar() {
+            if (!this.telefone) {
+                return alert('Digite um número de telefone válido para ser consultado')
+            }
 
-        //     for (let resultado of resultados) {
-        //         const callDate = luxon.DateTime.fromFormat(resultado.callDate, "dd/LL/yyyy HH:mm")
+            const response = await fetch(`http://localhost:8080/api/v1/report/phone?phone=${this.telefone}`, {
+                method: 'GET'
+            })
 
-        //         if (!denunciaMaisRecente || callDate > denunciaMaisrecente) {
-        //             denunciaMaisrecente = callDate.toFormat("dd/LL/yyyy HH:mm")
-        //         }
-        //     }
+            if (response.status == 200) {
+                const data = await response.json()
 
-        //     return denunciaMaisrecente
-        // },
+                this.resultados = data.data
+            }
+            else if (response.status == 400) {
+                alert('Número de telefone inválido. Por favor, verifique e tente novamente.')
+            } else if (response.status == 404) {
+                alert('Nenhuma denúncia encontrada para o número consultado.')
+                this.resultados = []
+            }
+            else {
+                alert('Ocorreu um erro desconhecido ao realizar a consulta. Tente novamente.')
+                this.resultados = []
+            }
+        },
+        denunciaMaisRecente(resultados) {
+            let denunciaMaisrecente = null
+
+            for (let resultado of resultados) {
+                const callDate = luxon.DateTime.fromFormat(resultado.callDate, "dd/LL/yyyy HH:mm")
+
+                if (denunciaMaisrecente == null) {
+                    denunciaMaisrecente = resultado.callDate
+                }
+                else if
+                    (callDate > luxon.DateTime.fromFormat(denunciaMaisrecente, "dd/LL/yyyy HH:mm")) {
+                    denunciaMaisrecente = callDate.toFormat("dd/LL/yyyy HH:mm")
+                }
+            }
+
+            return denunciaMaisrecente
+        },
         nivelRisco(quantidadeDenuncias) {
-            if (quantidadeDenuncias <= 5) {
+            if (quantidadeDenuncias <= 2) {
                 return 'Baixo'
-            } else if (quantidadeDenuncias > 5 && quantidadeDenuncias <= 10) {
+            } else if (quantidadeDenuncias > 2 && quantidadeDenuncias <= 6) {
                 return 'Moderado'
-            } else if (quantidadeDenuncias > 10) {
+            } else if (quantidadeDenuncias > 6) {
                 return 'Alto'
             } else {
                 return 'Não Avaliado'
@@ -76,79 +88,52 @@ export default {
     <div id="consultar">
         <div class="container">
             <h1 class="consultar-header-text">Verifique se um número é fraudulento</h1>
-            <form class="consultar">
+            <div class="consultar">
                 <div class="consultar-input-field">
                     <p class="texto"> Número de Telefone</p>
                     <div class="consultar-input-wrapper">
-                        <input type="tel" placeholder='(XX) XXXXX-XXXX' required />
+                        <input v-maska:telefone.unmasked="'(##) #####-####'" type="text" placeholder="(XX) XXXXX-XXXX"
+                            required>
                         <img class="icon" src="../assets/icons/phone-solid-full.svg">
                     </div>
                 </div>
                 <div class='consultar-input-field'>
-                    <button type="submit">Consultar</button>
+                    <button @click="consultar()">Consultar</button>
                 </div>
-            </form>
+            </div>
 
             <h2 class="resultado-text">Resultados da Busca</h2>
 
-            <div class="resultado-estatisticas">
-                <h4>{{ resultados.length }} Denúncias</h4>
-                <!-- <h4>Última Denúncia: {{ denunciaMaisRecente(resultados) }}</h4> -->
+            <div class="resultado-estatisticas" v-if="resultados.length > 0">
+                <h4>{{ resultados.length }} Denúncia{{ resultados.length == 1 ? '' : 's' }}</h4>
+                <h4>Última Denúncia: {{ denunciaMaisRecente(resultados) }}</h4>
             </div>
 
-            <div class="resultado-container" v-for="resultado of resultados">
-
-                <div class="resultado-card risk-high">
+            <div class="resultado-container" v-for="resultado of resultados" v-if="resultados.length > 0">
+                <div :class="[
+                    'resultado-card', `risk-${NivelRisco[nivelRisco(resultados.length)]}`
+                ]">
                     <div class="card-header">
-                        <!-- <img class="card-icon card-icon-vermelho" src='../assets/icons/square-xmark-solid-full.svg'
-                            alt="Alerta"> -->
+                        <img class="card-icon card-icon-safe" src='../assets/icons/circle-check-solid-full.svg'
+                            alt="Alerta Baixo" v-if="nivelRisco(resultados.length) == 'Baixo'">
+                        <img class="card-icon card-icon-moderate"
+                            src='../assets/icons/triangle-exclamation-solid-full.svg' alt="Alerta Moderado"
+                            v-else-if="nivelRisco(resultados.length) == 'Moderado'">
+                        <img class="card-icon card-icon-high" src='../assets/icons/square-xmark-solid-full.svg'
+                            alt="Alerta Alto" v-else-if="nivelRisco(resultados.length) == 'Alto'">
                         <div class="card-title">
                             <h3>{{ resultado.phone }}</h3>
-                            <p>{{ resultado.company }}.</p>
-                            <!-- <span>{{ resultado.reports }} denúncias recebidas</span> -->
+                            <p>{{ resultado.company }}</p>
                         </div>
-                        <!-- <span class="card-tag tag-high">{{ resultado.risco }}</span> -->
                     </div>
                     <div class="card-body">
                         <p>"{{ resultado.description }}"</p>
                         <span class="timestamp">Última denúncia: {{ formatarData(resultado.callDate) }}</span>
                     </div>
                 </div>
-                <!-- 
-                <div class="resultado-card risk-safe">
-                    <div class="card-header">
-                        <img class="card-icon card-icon-verde" src='../assets/icons/circle-check-solid-full.svg'
-                            alt="Seguro">
-                        <div class="card-title">
-                            <h3>(21) 99999-8888</h3>
-                            <span>Nenhuma denúncia encontrada para este número.</span>
-                        </div>
-                        <span class="card-tag tag-safe">SEM DENÚNCIAS</span>
-                    </div>
-                    <div class="card-body">
-                        <p>Se você recebeu uma ligação suspeita deste número, seja o primeiro a denunciar e ajude a
-                            proteger a comunidade.</p>
-                    </div>
-                </div>
-
-                <div class="resultado-card risk-moderate">
-                    <div class="card-header">
-                        <img class="card-icon card-icon-amarelo"
-                            src='../assets/icons/triangle-exclamation-solid-full.svg' alt="Atenção">
-                        <div class="card-title">
-                            <h3>(31) 91234-5678</h3>
-                            <span>2 denúncias recebidas</span>
-                        </div>
-                        <span class="card-tag tag-moderate">RISCO MODERADO</span>
-                    </div>
-                    <div class="card-body">
-                        <p>"Ligação silenciosa, desligam após alguns segundos."</p>
-                        <span class="timestamp">Última denúncia: 1 mês atrás</span>
-                    </div>
-                </div> -->
-
             </div>
 
+            <h2 class="resultado-text" v-if="resultados.length == 0">Nenhuma denúncia encontrada</h2>
         </div>
     </div>
 </template>
@@ -289,6 +274,7 @@ export default {
     width: 32px;
     height: 32px;
     flex-shrink: 0;
+    position: absolute;
 }
 
 .card-title {
@@ -340,7 +326,7 @@ export default {
 }
 
 .resultado-card.risk-safe {
-    border-left-color: #12b76a;
+    border-left-color: #19ec12;
     background-color: var(--secondary-bg-color);
 }
 
@@ -350,7 +336,7 @@ export default {
 }
 
 .resultado-card.risk-moderate {
-    border-left-color: #f79009;
+    border-left-color: #f7df09;
     background-color: var(--secondary-bg-color);
 }
 
@@ -360,16 +346,16 @@ export default {
 }
 
 
-.card-icon-vermelho {
+.card-icon-high {
     filter: brightness(0) saturate(100%) invert(16%) sepia(74%) saturate(6831%) hue-rotate(3deg) brightness(103%) contrast(125%);
 }
 
-.card-icon-verde {
-    filter: brightness(0) saturate(100%) invert(90%) sepia(7%) saturate(6859%) hue-rotate(70deg) brightness(100%) contrast(100%);
+.card-icon-safe {
+    filter: brightness(0) saturate(100%) invert(90%) sepia(7%) saturate(6859%) hue-rotate(70deg) brightness(100%) contrast(100%) drop-shadow(0 0 1px rgb(7, 63, 0));
 }
 
-.card-icon-amarelo {
-    filter: brightness(0) saturate(100%) invert(89%) sepia(57%) saturate(576%) hue-rotate(358deg) brightness(95%) contrast(95%);
+.card-icon-moderate {
+    filter: brightness(0) saturate(100%) invert(89%) sepia(57%) saturate(576%) hue-rotate(358deg) brightness(95%) contrast(95%) drop-shadow(0 0 1px rgb(121, 113, 0));
 }
 
 .consultar-input-wrapper {
