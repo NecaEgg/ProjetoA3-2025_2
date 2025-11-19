@@ -52,12 +52,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     // Lista de rotas que não exigem autenticação JWT
     // → qualquer rota que COMEÇA com essas strings será considerada pública
-    private final List<String> publicPaths = List.of(
-            "api/v1/auth/",// login, refresh, register
-            "/swagger-ui/",
-            "/v3/api-docs/",  // documentação backend
-            "/actuator/health"
-    );
+    //private final List<String> publicPaths = List.of(
+    //        "api/v1/auth/",// login, refresh, register
+    //        "/swagger-ui/",
+    //        "/v3/api-docs/",  // documentação backend
+    //        "/actuator/health"
+    //);
 
     /**
      * Método principal do filtro.
@@ -77,13 +77,13 @@ public class JwtFilter extends OncePerRequestFilter {
         final String path = request.getServletPath(); // pega a rota atual
 
         // verifica se a rota atual começa com algum dos paths que são públicos
-        boolean isPublicPath = this.publicPaths.stream().anyMatch(path::startsWith);
+        //boolean isPublicPath = this.publicPaths.stream().anyMatch(path::startsWith);
 
-        if (isPublicPath) {
-            // Se a rota for pública, NÃO faz validação de token
-            filterChain.doFilter(request, response);
-            return; // importante — evita que o código continue
-        }
+        //if (isPublicPath) {
+        //    // Se a rota for pública, NÃO faz validação de token
+        //    filterChain.doFilter(request, response);
+        //    return; // importante — evita que o código continue
+        //}
 
 
         // Se chegou aqui, a rota é PROTEGIDA e precisa validar JWT

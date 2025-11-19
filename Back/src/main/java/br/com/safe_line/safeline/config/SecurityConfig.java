@@ -47,6 +47,7 @@ public class SecurityConfig {
                                 "/api/v1/auth/login",
                                 "/api/v1/user/create",
                                 "/api/v1/user/allusers",
+                                "/api/v1/report/phone",
                                 "/api/v1/report/allreports")
                         .permitAll()
                         // --- FIM DA CORREÇÃO ---

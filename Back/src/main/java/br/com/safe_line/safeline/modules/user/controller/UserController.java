@@ -23,7 +23,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createdUser(userRequestDTO));
     }
 
-    @GetMapping("/allusers")
+    @GetMapping("/alluser")
     public ResponseEntity<BaseResponse<Set<UserResponseDTO>>> getUserController() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
