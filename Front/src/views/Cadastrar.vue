@@ -30,7 +30,7 @@ export default {
             this.loading = true;
 
             try {
-                const response = await fetch('http://localhost:8080/api/v1/auth/register', {
+                const response = await fetch('http://localhost:8080/api/v1/user/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ export default {
 <template>
     <div id="cadastrar">
         <div class="container">
-            <form class="cadastrar" @submit.prevent="register">
+            <div class="cadastrar">
                 <h1>Cadastre-se</h1>
                 <div class="input-field">
                     <p class="texto">Digite seu Nome:</p>
@@ -96,11 +96,11 @@ export default {
                     </div>
                 </div>
                 <div class='input-field'>
-                    <button type="submit" :disabled="loading">
+                    <button @click="register()" :disabled="loading">
                         {{ loading ? 'Registrando...' : 'Cadastrar' }}
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
