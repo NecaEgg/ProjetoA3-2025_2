@@ -1,4 +1,4 @@
-package br.com.safe_line.safeline.modules.report.dto;
+package br.com.safeline.modules.report.dto;
 
 import lombok.Builder;
 
