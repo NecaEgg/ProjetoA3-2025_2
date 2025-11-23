@@ -26,7 +26,7 @@ export default {
             if (response.status === 200) {
                 const data = await response.json();
                 localStorage.setItem('token', data.data);
-                this.$router.push('/dashboard');
+                this.$router.push('/denunciar');
             }
             else if (response.status === 401) {
                 alert("Credenciais inválidas. Tente novamente.");
