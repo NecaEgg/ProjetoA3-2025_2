@@ -48,7 +48,7 @@ export default {
 <template>
     <div id="login">
         <div class="container">
-            <form class="login">
+            <div class="login">
                 <h1>Acesse sua conta</h1>
                 <div class="input-field">
                     <p class="texto"> Digite seu Email:</p>
@@ -80,7 +80,7 @@ export default {
                         </router-link>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
