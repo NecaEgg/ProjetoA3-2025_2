@@ -38,17 +38,29 @@ export default {
             this.error = null;
 
             try {
-                const response = await fetch('http://localhost:8080/api/report', {
+                const callDate = new Date(this.formData.callDate).toLocaleString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }).replace(',', '');
+
+                const response = await fetch('http://localhost:8080/api/v1/report/create', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     },
                     body: JSON.stringify({
-                        phone: this.formData.phone,
-                        callDate: this.formData.callDate,
+                        phone: this.formData.phone.replace(/\D/g, ''),
+                        callDate: callDate,
                         company: this.formData.company,
                         description: this.formData.description
-                    })
+                    }),
+                    credentials: 'include',
+                    mode: 'cors'
                 });
 
                 if (!response.ok) {
@@ -91,7 +103,7 @@ export default {
                 <div class="denunciar-input-field">
                     <p class="texto">Número de Telefone do Golpista</p>
                     <div class="denunciar-input-wrapper">
-                        <input v-maska="'(##) #####-####'" type="text" placeholder="(XX) XXXXX-XXXX" required>
+                        <input v-maska="'(##) #####-####'" type="text" placeholder="(XX) XXXXX-XXXX" required v-model="formData.phone">
                         <img class="icon" src="../assets/icons/phone-solid-full.svg">
                     </div>
                 </div>

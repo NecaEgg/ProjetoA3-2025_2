@@ -12,37 +12,46 @@ export default {
                 alert("Por favor, preencha todos os campos.");
                 return;
             }
-            const response = await fetch('http://localhost:8080/api/v1/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: this.email,
-                    password: this.password
-                }),
-                credentials: 'include'
-            });
-            if (response.status === 200) {
-                const data = await response.json();
-                localStorage.setItem('token', data.data);
-                this.$router.push('/denunciar');
-            }
-            else if (response.status === 401) {
-                alert("Credenciais inválidas. Tente novamente.");
-            }   
-            else if (response.status === 403) {
-                alert("Credenciais expiradas, redefina sua senha.");
-            }
-            else if (response.status === 404) {
-                alert("Usuário não encontrado. Verifique seu email.");
-            }
-            else {
-                alert("Falha no login. Verifique suas credenciais.");
+            try {
+                console.log("Tentando logar...");
+
+
+                const response = await fetch('http://localhost:8080/api/v1/auth/login', {
+
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        email: this.email,
+                        password: this.password
+                    }),
+                    credentials: 'include',
+                    mode: 'cors'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data)
+                    localStorage.setItem('token', data.data);
+                    this.$router.push('/denunciar');
+                } else if (response.status === 401) {
+                    alert("Senha ou email incorretos.");
+                } else if (response.status === 404) {
+                    alert("Usuário não encontrado.");
+                } else {
+                    alert("Erro no login: " + response.status);
+                }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                alert("Não foi possível conectar ao servidor.");
             }
 
         }
+
     }
+
 };
 </script>
 <template>
@@ -53,14 +62,14 @@ export default {
                 <div class="input-field">
                     <p class="texto"> Digite seu Email:</p>
                     <div class="input-wrapper">
-                        <input type="email" placeholder='E-mail' required v-model="email"/>
+                        <input type="email" placeholder='E-mail' required v-model="email" />
                         <img class="icon" src="../assets/icons/envelope-solid-full.svg">
                     </div>
                 </div>
                 <div class='input-field'>
                     <p class="texto"> Digite sua Senha:</p>
                     <div class="input-wrapper">
-                        <input type="password" placeholder='Senha' required v-model="password"/>
+                        <input type="password" placeholder='Senha' required v-model="password" />
                         <img class="icon" src="../assets/icons/lock-solid-full.svg">
                     </div>
                 </div>

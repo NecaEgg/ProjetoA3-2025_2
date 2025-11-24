@@ -1,5 +1,23 @@
 <script>
-export default {};
+export default {
+    methods: {
+        logout(){
+            localStorage.removeItem('token');
+            //remove access_token and refresh_token from cookies
+            function removeCookie(tabs) {
+                let removing = browser.cookies.remove({
+                url: tabs[0].url,
+                name: "favorite-color",
+            });
+
+            let getActive = browser.tabs.query({ active: true, currentWindow: true });
+            getActive.then(removeCookie);
+
+            window.location.href = '/login';
+            }
+        }
+    }
+};
 </script>
 
 <template>
@@ -25,7 +43,9 @@ export default {};
                         <router-link  to="/consultar" class="nav-button-destaque">
                             Consultar Número
                         </router-link>
-                        
+                        <a class="nav-button" @click="logout">
+                            Logout
+                        </a>
                     </li>
                 </ul>
 
@@ -97,6 +117,7 @@ export default {};
     font-weight: bold;
     transition: background-color 0.3s ease;
     max-height: 90%;
+    cursor: pointer;
 }
 
 .nav-button.rota-ativa {

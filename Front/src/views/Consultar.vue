@@ -32,7 +32,13 @@ export default {
             }
 
             const response = await fetch(`http://localhost:8080/api/v1/report/phone?phone=${this.telefone}`, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                credentials: 'include',
+                mode: 'cors'
             })
 
             if (response.status == 200) {
