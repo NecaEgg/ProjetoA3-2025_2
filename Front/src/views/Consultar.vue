@@ -75,11 +75,11 @@ export default {
             return denunciaMaisrecente
         },
         nivelRisco(quantidadeDenuncias) {
-            if (quantidadeDenuncias <= 2) {
+            if (quantidadeDenuncias <= 0) {
                 return 'Baixo'
-            } else if (quantidadeDenuncias > 2 && quantidadeDenuncias <= 6) {
+            } else if (quantidadeDenuncias > 0 && quantidadeDenuncias <= 3) {
                 return 'Moderado'
-            } else if (quantidadeDenuncias > 6) {
+            } else if (quantidadeDenuncias > 3) {
                 return 'Alto'
             } else {
                 return 'Não Avaliado'

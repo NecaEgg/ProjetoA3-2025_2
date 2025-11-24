@@ -1,22 +1,5 @@
 <script>
 export default {
-    methods: {
-        logout(){
-            localStorage.removeItem('token');
-            //remove access_token and refresh_token from cookies
-            function removeCookie(tabs) {
-                let removing = browser.cookies.remove({
-                url: tabs[0].url,
-                name: "favorite-color",
-            });
-
-            let getActive = browser.tabs.query({ active: true, currentWindow: true });
-            getActive.then(removeCookie);
-
-            window.location.href = '/login';
-            }
-        }
-    }
 };
 </script>
 
@@ -43,9 +26,6 @@ export default {
                         <router-link  to="/consultar" class="nav-button-destaque">
                             Consultar Número
                         </router-link>
-                        <a class="nav-button" @click="logout">
-                            Logout
-                        </a>
                     </li>
                 </ul>
 
