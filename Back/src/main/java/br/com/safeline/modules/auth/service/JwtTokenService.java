@@ -7,6 +7,7 @@ import br.com.safeline.modules.user.model.Role;
 import br.com.safeline.modules.user.model.User;
 import br.com.safeline.modules.user.repository.AccessTokenRepository;
 import br.com.safeline.modules.user.repository.RefreshTokenRepository;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

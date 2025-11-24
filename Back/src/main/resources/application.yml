@@ -1,12 +1,42 @@
+#server:
+#  port: 8080
+#
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/safeline
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+#        jdbc:
+#          time_zone: America/Sao_Paulo
+#
+#app:
+#  jwt:
+#    secret: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+#    access-expiration-ms: 900000         # 15 minutos
+#    refresh-expiration-ms: 604800000     # 7 dias
+#    cookie-name: "access_token"          # Nome do cookie do Access Token
+#    refresh-cookie-name: "refresh_token" # Nome do cookie do Refresh Token
+
+
 server:
   port: 8080
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/safeline
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
@@ -14,15 +44,18 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
-        jdbc:
-          time_zone: America/Sao_Paulo
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
 app:
   jwt:
     secret: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    access-expiration-ms: 900000         # 15 minutos
-    refresh-expiration-ms: 604800000     # 7 dias
-    cookie-name: "access_token"          # Nome do cookie do Access Token
-    refresh-cookie-name: "refresh_token" # Nome do cookie do Refresh Token
+    access-expiration-ms: 900000
+    refresh-expiration-ms: 604800000
+    cookie-name: "access_token"
+    refresh-cookie-name: "refresh_token"

@@ -1,21 +1,30 @@
 package br.com.safeline.modules.auth.controller;
 
+import br.com.safeline.config.CookieService;
 import br.com.safeline.modules.auth.dto.AuthRequestDTO;
 import br.com.safeline.modules.auth.service.AuthService;
+import br.com.safeline.modules.auth.service.JwtTokenService;
 import br.com.safeline.modules.response.BaseResponse;
+import br.com.safeline.modules.user.dto.UserRequestDTO;
+import br.com.safeline.modules.user.exception.UsernameNotFoundException;
+import br.com.safeline.modules.user.model.AccessToken;
+import br.com.safeline.modules.user.model.User;
+import br.com.safeline.modules.user.repository.AccessTokenRepository;
+import br.com.safeline.modules.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth") // Rota base: /api/v1/auth
@@ -24,6 +33,20 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+    @Autowired
+    private CookieService cookieService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtTokenService jwtTokenService;
+
+    @Autowired
+    AccessTokenRepository accessTokenRepository;
+
+    @Value("${app.jwt.cookie-name}")
+    private String accessTokenCookieName;
 
     @Operation(summary = "Autentica um usuário",
             description = "Realiza o login, retorna o email e define cookies seguros (access e refresh).")
@@ -59,5 +82,50 @@ public class AuthController {
 
         var serviceResponse = this.authService.logout(request, response);
         return ResponseEntity.status(serviceResponse.getStatusCode()).body(serviceResponse);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<BaseResponse<UserRequestDTO>> me(
+            HttpServletRequest request) {
+        try {
+            String accessToken = cookieService.getTokenFromCookie(request, accessTokenCookieName);
+
+            if (accessToken == null || accessToken.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(BaseResponse.error("Token não encontrado"));
+            }
+
+            // Valida o token e extrai o email
+            String email = jwtTokenService.extractUsername(accessToken);
+
+            if (email == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(BaseResponse.error("Token inválido"));
+            }
+
+            // Busca o usuário no banco
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(UsernameNotFoundException::new);
+
+            // Verifica se o token foi revogado
+            Optional<AccessToken> accessTokenOpt = accessTokenRepository.findByToken(accessToken);
+            if (accessTokenOpt.isEmpty() || accessTokenOpt.get().isRevoked()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(BaseResponse.error("Token revogado"));
+            }
+
+            // Converte para DTO
+            UserRequestDTO userDTO = UserRequestDTO.builder()
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .userId(user.getIdUser())
+                    .build();
+
+            return ResponseEntity.ok(BaseResponse.success("Usuário autenticado", userDTO, 200));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(BaseResponse.error("Falha na autenticação: " + e.getMessage()));
+        }
     }
 }
