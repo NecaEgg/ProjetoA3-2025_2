@@ -38,7 +38,8 @@ export default {
             this.error = null;
 
             try {
-                const response = await fetch('http://localhost:8080/api/reports', {
+                // Ajuste da URL para bater com o back-end (/v1)
+                const response = await fetch('http://localhost:8080/api/v1/report/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -48,14 +49,23 @@ export default {
                         callDate: this.formData.callDate,
                         company: this.formData.company,
                         description: this.formData.description
-                    })
+                    }),
+                    mode: "cors",
+                    credentials: "include"
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Erro: ${response.status}`);
+                    // Tenta ler a mensagem de erro do backend se existir
+                    const errorText = await response.text();
+                    throw new Error(`Erro ${response.status}: ${errorText || 'Falha na requisição'}`);
                 }
 
-                const data = await response.json();
+                // Verifica se há conteúdo JSON antes de fazer o parse
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                     const data = await response.json();
+                } // <--- A chave que faltava estava AQUI
+
                 alert('Denúncia feita com sucesso!');
                 this.resetForm();
             } catch (error) {
@@ -91,7 +101,7 @@ export default {
                 <div class="denunciar-input-field">
                     <p class="texto">Número de Telefone do Golpista</p>
                     <div class="denunciar-input-wrapper">
-                        <input v-maska="'(##) #####-####'" type="text" placeholder="(XX) XXXXX-XXXX" required>
+                        <input v-maska="'(##) #####-####'" v-model="formData.phone" type="text" placeholder="(XX) XXXXX-XXXX" required>
                         <img class="icon" src="../assets/icons/phone-solid-full.svg">
                     </div>
                 </div>
