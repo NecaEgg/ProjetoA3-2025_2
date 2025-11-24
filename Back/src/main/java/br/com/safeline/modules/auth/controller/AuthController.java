@@ -1,5 +1,17 @@
 package br.com.safeline.modules.auth.controller;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.safeline.config.CookieService;
 import br.com.safeline.modules.auth.dto.AuthRequestDTO;
 import br.com.safeline.modules.auth.service.AuthService;
@@ -11,23 +23,14 @@ import br.com.safeline.modules.user.model.AccessToken;
 import br.com.safeline.modules.user.model.User;
 import br.com.safeline.modules.user.repository.AccessTokenRepository;
 import br.com.safeline.modules.user.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/api/v1/auth") // Rota base: /api/v1/auth
+@RequestMapping("/api/v1/auth") 
 @Tag(name = "Autenticação", description = "Endpoints para Login, Redefinição de Senha, Refresh e Logout")
 public class AuthController {
 
@@ -63,7 +66,7 @@ public class AuthController {
 
 
     @Operation(summary = "Renova o token de acesso (Access Token)", description = "Usa o 'refresh_token' (lido do cookie HttpOnly).")
-    @PostMapping("/refresh") // Rota: /api/v1/auth/refresh
+    @PostMapping("/refresh") 
     public ResponseEntity<BaseResponse<String>> refreshAccessToken(
             HttpServletResponse response,
             HttpServletRequest request) {
@@ -75,7 +78,7 @@ public class AuthController {
 
     @Operation(summary = "Desloga o usuário",
             description = "Revoga os tokens no banco de dados e limpa os cookies.")
-    @PostMapping("/logout") // Rota: /api/v1/auth/logout
+    @PostMapping("/logout") 
     public ResponseEntity<BaseResponse<String>> logout(
             HttpServletResponse response,
             HttpServletRequest request) {
@@ -95,7 +98,7 @@ public class AuthController {
                         .body(BaseResponse.error("Token não encontrado"));
             }
 
-            // Valida o token e extrai o email
+          
             String email = jwtTokenService.extractUsername(accessToken);
 
             if (email == null) {
@@ -103,18 +106,18 @@ public class AuthController {
                         .body(BaseResponse.error("Token inválido"));
             }
 
-            // Busca o usuário no banco
+      
             User user = userRepository.findByEmail(email)
                     .orElseThrow(UsernameNotFoundException::new);
 
-            // Verifica se o token foi revogado
+         
             Optional<AccessToken> accessTokenOpt = accessTokenRepository.findByToken(accessToken);
             if (accessTokenOpt.isEmpty() || accessTokenOpt.get().isRevoked()) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(BaseResponse.error("Token revogado"));
             }
 
-            // Converte para DTO
+       
             UserRequestDTO userDTO = UserRequestDTO.builder()
                     .name(user.getName())
                     .email(user.getEmail())

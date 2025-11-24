@@ -1,14 +1,23 @@
 package br.com.safeline.modules.user.model;
 
-import jakarta.persistence.*;
+import java.time.Instant;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_token")
@@ -18,7 +27,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AccessToken {
 
-    //id token login instant isrevoged refreshtoken
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,7 +35,7 @@ public class AccessToken {
     @Column(columnDefinition = "TEXT")
     private String token;
 
-    @ManyToOne(fetch = FetchType.LAZY) //carrega qnd necessário (performance)
+    @ManyToOne(fetch = FetchType.LAZY) 
     @JoinColumn(name = "user_id")
     private User user;
 

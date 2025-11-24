@@ -1,28 +1,28 @@
 package br.com.safeline.modules.auth.service;
 
 
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.UUID;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import br.com.safeline.modules.user.model.AccessToken;
 import br.com.safeline.modules.user.model.RefreshToken;
 import br.com.safeline.modules.user.model.Role;
 import br.com.safeline.modules.user.model.User;
 import br.com.safeline.modules.user.repository.AccessTokenRepository;
 import br.com.safeline.modules.user.repository.RefreshTokenRepository;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,16 +41,10 @@ public class JwtTokenService {
     private final AccessTokenRepository accessTokenRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    // =============================
-    //        CHAVE JWT
-    // =============================
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(this.secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    // =============================
-    //        GERAR ACCESS TOKEN
-    // =============================
     public String generateAccessToken(User user, RefreshToken refreshToken) {
 
         Instant now = Instant.now();
@@ -77,9 +71,6 @@ public class JwtTokenService {
         return jwt;
     }
 
-    // =============================
-    //       GERAR REFRESH TOKEN
-    // =============================
     public RefreshToken generateRefreshToken(User user) {
 
         String tokenValue = UUID.randomUUID().toString();
@@ -94,15 +85,12 @@ public class JwtTokenService {
         return this.refreshTokenRepository.save(refreshToken);
     }
 
-    // =============================
-    //       VALIDAR TOKEN JWT
-    // =============================
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .verifyWith(this.getSigningKey())     // chave correta
+                    .verifyWith(this.getSigningKey())    
                     .build()
-                    .parseSignedClaims(token);       // método correto
+                    .parseSignedClaims(token);     
             return true;
 
         } catch (JwtException | IllegalArgumentException e) {
@@ -110,9 +98,6 @@ public class JwtTokenService {
         }
     }
 
-    // =============================
-    //       REVOGAR TOKEN
-    // =============================
     public void revokeAccessToken(String token) {
         this.accessTokenRepository.findByToken(token).ifPresent(accessToken -> {
             accessToken.setRevoked(true);
@@ -120,9 +105,6 @@ public class JwtTokenService {
         });
     }
 
-    // =============================
-    //   RENOVAR / REFRESH TOKEN
-    // =============================
     public String refreshAccessToken(String refreshTokenId) {
 
         RefreshToken refreshToken = this.refreshTokenRepository.findById(UUID.fromString(refreshTokenId))
@@ -141,11 +123,11 @@ public class JwtTokenService {
 
     public String extractUsername(String jwt) {
         return Jwts.parser()
-                .verifyWith(this.getSigningKey())   // chave correta
+                .verifyWith(this.getSigningKey())   
                 .build()
-                .parseSignedClaims(jwt)        // parse seguro
+                .parseSignedClaims(jwt)       
                 .getPayload()
-                .getSubject();                 // subject = id do usuário
+                .getSubject();              
     }
 
 }

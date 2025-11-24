@@ -1,22 +1,20 @@
 package br.com.safeline.modules.exception;
 
 
-import br.com.safeline.modules.report.exception.ReportNotFoundException;
-import br.com.safeline.modules.response.BaseResponse;
-import br.com.safeline.modules.user.exception.EmailAlreadyExistsException;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.com.safeline.modules.report.exception.ReportNotFoundException;
+import br.com.safeline.modules.response.BaseResponse;
+import br.com.safeline.modules.user.exception.EmailAlreadyExistsException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // ============================================
-    //   ERROS DE VALIDAÇÃO (@Valid, @NotNull...)
-    // ============================================
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<BaseResponse<String>> handleException(ConstraintViolationException ex) {
 
@@ -32,9 +30,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(response);
     }
 
-    // ============================================
-    //         EMAIL JÁ EXISTE (409)
-    // ============================================
     @ExceptionHandler({EmailAlreadyExistsException.class})
     public ResponseEntity<BaseResponse<String>> handleAlreadyExistException(RuntimeException ex) {
 
@@ -44,9 +39,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(409).body(response);
     }
 
-    // ============================================
-    //     USERNAME NOT FOUND (404)
-    // ============================================
     @ExceptionHandler({UsernameNotFoundException.class, ReportNotFoundException.class})
     public ResponseEntity<BaseResponse<String>> handleUsernameNotFoundException(RuntimeException ex) {
 

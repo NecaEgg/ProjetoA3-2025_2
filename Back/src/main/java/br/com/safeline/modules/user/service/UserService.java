@@ -1,12 +1,9 @@
 package br.com.safeline.modules.user.service;
 
 
-import br.com.safeline.modules.report.service.ReportService;
-import br.com.safeline.modules.response.BaseResponse;
-import br.com.safeline.modules.user.exception.EmailAlreadyExistsException;
-import br.com.safeline.modules.user.model.User;
-import br.com.safeline.modules.user.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,11 +12,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.safeline.modules.report.service.ReportService;
+import br.com.safeline.modules.response.BaseResponse;
 import br.com.safeline.modules.user.dto.UserRequestDTO;
 import br.com.safeline.modules.user.dto.UserResponseDTO;
-
-import java.util.Set;
-import java.util.stream.Collectors;
+import br.com.safeline.modules.user.exception.EmailAlreadyExistsException;
+import br.com.safeline.modules.user.model.User;
+import br.com.safeline.modules.user.repository.UserRepository;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -32,10 +32,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private ReportService reportService;
 
-    //metodo para criar usuarios
     public BaseResponse<UserResponseDTO> createdUser(UserRequestDTO userRequestDTO) {
 
-        //verificar se o usuário ja existe no banco de dados
         this.userRepository.findByEmail(userRequestDTO.email()).ifPresent(user -> {
             throw new EmailAlreadyExistsException();
         });
@@ -49,7 +47,6 @@ public class UserService implements UserDetailsService {
                         .build(), HttpStatus.CREATED.value());
     }
 
-    //metodo para retornar usuários
     public BaseResponse<Set<UserResponseDTO>> getAllUsers(){
         var users = this.userRepository.findAll().stream().map(user ->  UserResponseDTO.builder()
                 .name(user.getName())

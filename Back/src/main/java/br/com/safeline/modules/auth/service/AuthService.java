@@ -1,18 +1,7 @@
 package br.com.safeline.modules.auth.service;
 
-import br.com.safeline.config.CookieService;
-import br.com.safeline.modules.auth.dto.AuthRequestDTO;
-import br.com.safeline.modules.response.BaseResponse;
-import br.com.safeline.modules.user.model.AccessToken;
-import br.com.safeline.modules.user.model.User;
-import br.com.safeline.modules.user.exception.UsernameNotFoundException;
+import java.util.Optional;
 
-import br.com.safeline.modules.user.repository.AccessTokenRepository;
-import br.com.safeline.modules.user.repository.RefreshTokenRepository;
-import br.com.safeline.modules.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,7 +11,18 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import br.com.safeline.config.CookieService;
+import br.com.safeline.modules.auth.dto.AuthRequestDTO;
+import br.com.safeline.modules.response.BaseResponse;
+import br.com.safeline.modules.user.exception.UsernameNotFoundException;
+import br.com.safeline.modules.user.model.AccessToken;
+import br.com.safeline.modules.user.model.User;
+import br.com.safeline.modules.user.repository.AccessTokenRepository;
+import br.com.safeline.modules.user.repository.RefreshTokenRepository;
+import br.com.safeline.modules.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService {
@@ -81,22 +81,13 @@ public class AuthService {
                 throw new BadCredentialsException("A conta está bloqueada temporariamente.");
             }
 
-            // =============================
-            //     GERA REFRESH TOKEN
-            // =============================
             var refreshToken = this.jwtTokenService.generateRefreshToken(user);
 
-            // =============================
-            //     GERA ACCESS TOKEN
-            // =============================
             String accessToken = this.jwtTokenService.generateAccessToken(user, refreshToken);
 
             int accessTokenMaxAge = (int) (this.accessTokenExpirationMs / 1000);
             int refreshTokenMaxAge = (int) (this.refreshTokenExpirationMs / 1000);
 
-            // =============================
-            //  GRAVA COOKIES HTTP-ONLY
-            // =============================
             this.cookieService.addSecureCookie(
                     response,
                     this.accessTokenCookieName,
@@ -125,17 +116,14 @@ public class AuthService {
     public BaseResponse<String> refreshAccessToken(HttpServletResponse response, HttpServletRequest request) {
 
         try {
-            // 1. Pega o refresh token do cookie
             String refreshTokenId = this.cookieService.getTokenFromCookie(request, this.refreshTokenCookieName);
 
             if (refreshTokenId == null || refreshTokenId.isEmpty()) {
                 return BaseResponse.error("Refresh token não encontrado no cookie.");
             }
 
-            // 2. Gera um NOVO access token usando o refresh token salvo no banco
             String newAccessToken = this.jwtTokenService.refreshAccessToken(refreshTokenId);
 
-            // 3. Define o novo access token no cookie seguro novamente
             int accessTokenMaxAge = (int) (this.accessTokenExpirationMs / 1000);
 
             this.cookieService.addSecureCookie(
@@ -145,7 +133,6 @@ public class AuthService {
                     accessTokenMaxAge
             );
 
-            // 4. Sucesso → retorna o novo token
             return BaseResponse.success(
                     "Novo Access Token gerado com sucesso.",
                     newAccessToken,

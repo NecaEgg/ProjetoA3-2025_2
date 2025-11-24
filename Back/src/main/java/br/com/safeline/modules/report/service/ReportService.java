@@ -1,5 +1,11 @@
 package br.com.safeline.modules.report.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
 import br.com.safeline.modules.report.dto.ReportRequestDTO;
 import br.com.safeline.modules.report.dto.ReportResponseDTO;
 import br.com.safeline.modules.report.dto.ReportResponseDTOphone;
@@ -8,11 +14,6 @@ import br.com.safeline.modules.report.repository.ReportRepository;
 import br.com.safeline.modules.response.BaseResponse;
 import br.com.safeline.modules.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +22,6 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
 
-    // método para criar reports
     public BaseResponse<ReportResponseDTO> createdReport(ReportRequestDTO reportRequestDTO) {
 
         var user = userRepository.findById(reportRequestDTO.userId())
@@ -84,7 +84,6 @@ public class ReportService {
             );
         }
 
-        // Converte entidades para DTOs
         List<ReportResponseDTOphone> reportResponseList = reports.stream()
                 .map(report -> ReportResponseDTOphone.builder()
                         .phone(report.getPhone())

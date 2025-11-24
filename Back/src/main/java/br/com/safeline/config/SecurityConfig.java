@@ -1,5 +1,8 @@
 package br.com.safeline.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +22,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -32,28 +32,17 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                // ✅ HABILITA CORS
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-                // ✅ DESATIVA CSRF
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-
-                // ✅ CONFIGURAÇÃO ESPECÍFICA PARA H2 CONSOLE
                 .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable) // Necessário para H2 Console
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable) 
                 )
-
-                // ✅ SESSÃO STATELESS
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                // ✅ AUTORIZAÇÃO DE ROTAS
                 .authorizeHttpRequests(auth -> auth
-                        // ROTAS PÚBLICAS
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/api/v1/auth/**",        // ← TODAS as rotas de auth
+                                "/api/v1/auth/**",        
                                 "/api/v1/user/create",
                                 "/api/v1/user/allusers",
                                 "/api/v1/report/phone",
@@ -62,19 +51,12 @@ public class SecurityConfig {
                                 "/h2-console",
                                 "/h2/**")
                         .permitAll()
-
-                        // ✅ ADICIONE A ROTA DE CRIAÇÃO DE DENÚNCIA como autenticada
                         .requestMatchers("/api/v1/report/create").authenticated()
-
                         .anyRequest().authenticated())
-
-                // ✅ FILTRO JWT
                 .addFilterBefore(this.jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
-    // ✅ CONFIGURAÇÃO CORS
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

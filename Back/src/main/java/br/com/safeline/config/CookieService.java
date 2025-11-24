@@ -1,9 +1,10 @@
 package br.com.safeline.config;
 
+import org.springframework.stereotype.Service;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CookieService {
@@ -22,11 +23,11 @@ public class CookieService {
 
     public void addSecureCookie(HttpServletResponse response, String cookieName, String value, int maxAge) {
         Cookie cookie = new Cookie(cookieName, value);
-        cookie.setHttpOnly(true); // Impede acesso via JS
-        cookie.setSecure(false); // Apenas HTTPS
-        cookie.setPath("/"); // Disponível em toda a aplicação
+        cookie.setHttpOnly(true); 
+        cookie.setSecure(false); 
+        cookie.setPath("/"); 
         cookie.setMaxAge(maxAge);
-        cookie.setAttribute("SameSite", "Lax"); // Previne CSRF
+        cookie.setAttribute("SameSite", "Lax"); 
         response.addCookie(cookie);
     }
 
