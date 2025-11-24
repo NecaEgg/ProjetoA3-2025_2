@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -27,10 +28,16 @@ class UserControllerTest {
 
     @Test
     void createUserController_returnsCreated() {
-        var req = new UserRequestDTO("n","e","p");
-        when(userService.createdUser(req)).thenReturn(BaseResponse.success("ok", UserResponseDTO.builder().email("e").build(), 201));
+        var req = new UserRequestDTO("n","e","p", UUID.randomUUID());
 
-        ResponseEntity<BaseResponse<UserResponseDTO>> resp = userController.createUserController(req);
+        when(userService.createdUser(req))
+                .thenReturn(BaseResponse.success("ok",
+                        UserResponseDTO.builder().email("e").build(),
+                        201
+                ));
+
+        ResponseEntity<BaseResponse<UserResponseDTO>> resp =
+                userController.createUserController(req);
 
         assertEquals(org.springframework.http.HttpStatus.CREATED, resp.getStatusCode());
         assertNotNull(resp.getBody());
@@ -38,12 +45,16 @@ class UserControllerTest {
 
     @Test
     void getUserController_returnsList() {
-        when(userService.getAllUsers()).thenReturn(BaseResponse.success("ok", Set.of(UserResponseDTO.builder().email("e").build()), 200));
+        when(userService.getAllUsers())
+                .thenReturn(BaseResponse.success("ok",
+                        Set.of(UserResponseDTO.builder().email("e").build()),
+                        200
+                ));
 
-        ResponseEntity<BaseResponse<Set<UserResponseDTO>>> resp = userController.getUserController();
+        ResponseEntity<BaseResponse<Set<UserResponseDTO>>> resp =
+                userController.getUserController();
 
         assertEquals(org.springframework.http.HttpStatus.OK, resp.getStatusCode());
         assertNotNull(resp.getBody());
     }
-
 }

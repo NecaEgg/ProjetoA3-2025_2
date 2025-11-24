@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -35,15 +36,15 @@ class UserServiceTest {
     private UserService userService;
 
     @BeforeEach
-    void setUp() {
-    }
+    void setUp() {}
 
     @Test
     void createdUser_success() {
-        var req = new UserRequestDTO("Nome", "email@test.com", "senha1234");
+        var req = new UserRequestDTO("Nome", "email@test.com", "senha1234", UUID.randomUUID());
 
         when(userRepository.findByEmail(req.email())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(req.password())).thenReturn("encoded");
+
         when(userRepository.save(org.mockito.ArgumentMatchers.any(User.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -56,9 +57,10 @@ class UserServiceTest {
 
     @Test
     void getByEmail_notFound_throws() {
-        when(userRepository.findByEmail("no@one.com")).thenReturn(Optional.empty());
+        when(userRepository.findByEmail("no@one.com"))
+                .thenReturn(Optional.empty());
 
-        assertThrows(UsernameNotFoundException.class, () -> userService.getByEmail("no@one.com"));
+        assertThrows(UsernameNotFoundException.class,
+                () -> userService.getByEmail("no@one.com"));
     }
-
 }
