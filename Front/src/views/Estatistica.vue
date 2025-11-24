@@ -15,7 +15,7 @@ export default {
     methods: {
         async fetchTotalReports() {
             try {
-                const response = await fetch('http://localhost:8080/api/reports');
+                const response = await fetch('http://localhost:8080/api/v1/report/allreport');
                 
                 if (!response.ok) {
                     throw new Error(`Erro: ${response.status}`);

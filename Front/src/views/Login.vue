@@ -13,9 +13,6 @@ export default {
                 return;
             }
             try {
-                console.log("Tentando logar...");
-
-
                 const response = await fetch('http://localhost:8080/api/v1/auth/login', {
 
                     method: 'POST',
@@ -33,7 +30,6 @@ export default {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data)
                     localStorage.setItem('token', data.data);
 
                     const userResponse = await fetch('http://localhost:8080/api/v1/auth/me', {
@@ -49,6 +45,7 @@ export default {
                 if(userResponse.ok){
                     const userData = await userResponse.json();
                     localStorage.setItem('user', JSON.stringify(userData.data));
+
                     this.$router.push('/denunciar');
                 }
                 else {
