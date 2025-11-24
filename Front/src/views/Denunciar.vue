@@ -46,7 +46,7 @@ export default {
                     minute: '2-digit',
                     hour12: false
                 }).replace(',', '');
-
+                
                 const response = await fetch('http://localhost:8080/api/v1/report/create', {
                     method: 'POST',
                     headers: {
@@ -54,6 +54,7 @@ export default {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     },
                     body: JSON.stringify({
+                        userId: JSON.parse(localStorage.getItem('user')).userId,
                         phone: this.formData.phone.replace(/\D/g, ''),
                         callDate: callDate,
                         company: this.formData.company,

@@ -35,7 +35,26 @@ export default {
                     const data = await response.json();
                     console.log(data)
                     localStorage.setItem('token', data.data);
+
+                    const userResponse = await fetch('http://localhost:8080/api/v1/auth/me', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    credentials: 'include',
+                    mode: 'cors'
+                });
+
+                if(userResponse.ok){
+                    const userData = await userResponse.json();
+                    localStorage.setItem('user', JSON.stringify(userData.data));
                     this.$router.push('/denunciar');
+                }
+                else {
+                    alert("Erro ao obter dados do usuário: " + userResponse.status);
+
+                }
                 } else if (response.status === 401) {
                     alert("Senha ou email incorretos.");
                 } else if (response.status === 404) {
